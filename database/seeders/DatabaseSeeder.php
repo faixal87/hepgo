@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             AreaSeeder::class,
             CategorySeeder::class,
             FacilitySeeder::class,
+            DemoPropertySeeder::class,
         ]);
     }
 }

@@ -1,7 +1,7 @@
 @php
     $thumbnailUrl = $property->thumbnailUrl();
     $whatsappUrl = $property->whatsappUrl();
-    $mapsUrl = $property->mapsUrl();
+    $mapsUrl = filled($property->maps_url) ? $property->maps_url : null;
     $directionUrl = $property->direction_url;
     $statusValue = $property->status?->value ?? $property->status;
     $statusLabel = $property->status?->label() ?? $statusValue;
@@ -53,7 +53,7 @@
                 <span class="rounded-full bg-zinc-100 px-2.5 py-1">{{ $property->area?->name ?? 'Kawasan tidak dinyatakan' }}</span>
                 <span class="rounded-full bg-zinc-100 px-2.5 py-1">{{ $property->category?->name ?? 'Kategori tidak dinyatakan' }}</span>
                 @if (filled($property->distance_km))
-                    <span class="rounded-full bg-amber-100 px-2.5 py-1 text-amber-800">{{ number_format((float) $property->distance_km, 1) }} km</span>
+                    <span class="rounded-full bg-amber-100 px-2.5 py-1 text-amber-800">{{ number_format((float) $property->distance_km, 1) }} km dari POLIMAS</span>
                 @endif
             </div>
 
@@ -83,7 +83,7 @@
             @endif
             @if ($mapsUrl)
                 <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="rounded-xl bg-amber-400 px-3 py-2 text-center text-xs font-bold text-zinc-950 shadow-sm transition hover:bg-amber-300">
-                    Peta
+                    Peta Rumah
                 </a>
             @endif
             @if ($directionUrl)

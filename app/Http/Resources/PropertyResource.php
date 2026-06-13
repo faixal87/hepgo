@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 /** @mixin Property */
 class PropertyResource extends JsonResource
@@ -20,15 +21,18 @@ class PropertyResource extends JsonResource
             'id' => $this->id,
             'tajuk' => $this->title,
             'penerangan' => $this->description,
+            'penerangan_ringkas' => Str::limit(strip_tags((string) $this->description), 140),
             'alamat' => $this->address,
             'kawasan' => $this->area?->name,
             'kategori' => $this->category?->name,
             'harga' => (float) $this->price,
             'deposit' => $this->deposit !== null ? (float) $this->deposit : null,
             'status' => $this->status?->label(),
+            'status_label' => $this->status?->label(),
             'status_kod' => $this->status?->value,
             'status_pengesahan' => $this->verification_status?->label(),
             'jarak_km' => $this->distance_km !== null ? (float) $this->distance_km : null,
+            'jarak_label' => 'Jarak anggaran dari POLIMAS',
             'label_jarak' => 'Jarak anggaran dari POLIMAS',
             'keutamaan_penyewa' => $this->gender_preference?->label(),
             'keutamaan_penyewa_kod' => $this->gender_preference?->value,
@@ -45,7 +49,7 @@ class PropertyResource extends JsonResource
             'kemudahan' => FacilityResource::collection($this->whenLoaded('facilities')),
             'thumbnail' => $this->thumbnailUrl(),
             'gambar' => PropertyImageResource::collection($this->whenLoaded('images')),
-            'maps_url' => $this->mapsUrl(),
+            'maps_url' => $this->maps_url,
             'direction_url' => $this->direction_url,
             'latitude' => $this->latitude !== null ? (float) $this->latitude : null,
             'longitude' => $this->longitude !== null ? (float) $this->longitude : null,

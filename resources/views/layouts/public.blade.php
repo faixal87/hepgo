@@ -32,7 +32,7 @@
                     </a>
                     @auth
                         <a href="/admin" class="rounded-full bg-zinc-950 px-4 py-2 text-white shadow-sm transition hover:bg-zinc-800">
-                            Admin
+                            Panel Admin
                         </a>
                     @else
                         <a href="{{ route('login') }}" class="rounded-full bg-zinc-950 px-4 py-2 text-white shadow-sm transition hover:bg-zinc-800">

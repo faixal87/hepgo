@@ -31,7 +31,7 @@ class FacilityResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWrenchScrewdriver;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Pengurusan Rumah Sewa';
+    protected static string|UnitEnum|null $navigationGroup = 'Tetapan Data';
 
     protected static ?string $navigationLabel = 'Kemudahan';
 
@@ -80,14 +80,14 @@ class FacilityResource extends Resource
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
-                RestoreAction::make(),
+                EditAction::make()->label('Kemaskini'),
+                DeleteAction::make()->label('Padam'),
+                RestoreAction::make()->label('Pulihkan'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
+                    DeleteBulkAction::make()->label('Padam Dipilih'),
+                    RestoreBulkAction::make()->label('Pulihkan Dipilih'),
                 ]),
             ]);
     }

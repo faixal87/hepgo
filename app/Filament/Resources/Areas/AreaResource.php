@@ -35,7 +35,7 @@ class AreaResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMapPin;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Pengurusan Rumah Sewa';
+    protected static string|UnitEnum|null $navigationGroup = 'Tetapan Data';
 
     protected static ?string $navigationLabel = 'Kawasan';
 
@@ -59,7 +59,7 @@ class AreaResource extends Resource
                         ->maxLength(255),
 
                     TextInput::make('distance_from_campus')
-                        ->label('Jarak Dari Kampus')
+                        ->label('Jarak Dari POLIMAS')
                         ->numeric()
                         ->suffix('km'),
 
@@ -88,7 +88,7 @@ class AreaResource extends Resource
                     ->sortable(),
 
                 TextColumn::make('distance_from_campus')
-                    ->label('Jarak Dari Kampus')
+                    ->label('Jarak Dari POLIMAS')
                     ->suffix(' km')
                     ->placeholder('-')
                     ->sortable(),
@@ -112,14 +112,14 @@ class AreaResource extends Resource
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
-                RestoreAction::make(),
+                EditAction::make()->label('Kemaskini'),
+                DeleteAction::make()->label('Padam'),
+                RestoreAction::make()->label('Pulihkan'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
+                    DeleteBulkAction::make()->label('Padam Dipilih'),
+                    RestoreBulkAction::make()->label('Pulihkan Dipilih'),
                 ]),
             ]);
     }

@@ -210,11 +210,11 @@ new class extends Component
 
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label for="priceMin" class="text-sm font-bold text-zinc-700">Harga Min</label>
+                    <label for="priceMin" class="text-sm font-bold text-zinc-700">Harga Minimum</label>
                     <input id="priceMin" type="number" min="0" step="50" wire:model.live.debounce.500ms="priceMin" placeholder="RM" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                 </div>
                 <div>
-                    <label for="priceMax" class="text-sm font-bold text-zinc-700">Harga Max</label>
+                    <label for="priceMax" class="text-sm font-bold text-zinc-700">Harga Maksimum</label>
                     <input id="priceMax" type="number" min="0" step="50" wire:model.live.debounce.500ms="priceMax" placeholder="RM" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                 </div>
             </div>
@@ -271,7 +271,7 @@ new class extends Component
                 <p class="text-2xl font-extrabold text-zinc-950">{{ number_format($properties->total()) }} rumah sewa</p>
             </div>
             <div wire:loading.delay class="rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-900 ring-1 ring-amber-200">
-                Sedang mencari...
+                Sedang memuatkan...
             </div>
         </div>
 
@@ -287,7 +287,7 @@ new class extends Component
             </div>
         @else
             <div class="rounded-3xl bg-white p-10 text-center shadow-sm ring-1 ring-zinc-200">
-                <p class="text-lg font-extrabold text-zinc-950">Tiada rumah sewa ditemui berdasarkan carian anda. Sila ubah tapisan carian.</p>
+                <p class="text-lg font-extrabold text-zinc-950">Tiada rekod ditemui berdasarkan carian anda. Sila ubah tapisan carian.</p>
             </div>
         @endif
     </div>

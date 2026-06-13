@@ -7,7 +7,7 @@
     @php
         $mainImage = $property->thumbnailUrl();
         $whatsappUrl = $property->whatsappUrl();
-        $mapsUrl = $property->mapsUrl();
+        $mapsUrl = filled($property->maps_url) ? $property->maps_url : null;
         $directionUrl = $property->direction_url;
         $statusValue = $property->status?->value ?? $property->status;
         $statusClass = $statusValue === 'available'
@@ -57,7 +57,7 @@
             </div>
 
             <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-zinc-200">
-                <h2 class="text-lg font-extrabold text-zinc-950">Penerangan</h2>
+                <h2 class="text-lg font-extrabold text-zinc-950">Maklumat Rumah</h2>
                 <p class="mt-3 whitespace-pre-line text-sm leading-7 text-zinc-600">{{ $property->description }}</p>
             </div>
         </div>
@@ -105,7 +105,7 @@
             </div>
 
             <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-zinc-200">
-                <h2 class="text-lg font-extrabold text-zinc-950">Maklumat Rumah</h2>
+                <h2 class="text-lg font-extrabold text-zinc-950">Kemudahan Rumah</h2>
                 <div class="mt-4 grid grid-cols-3 gap-3 text-center text-sm">
                     <div class="rounded-2xl bg-zinc-50 p-4">
                         <p class="text-2xl font-extrabold text-zinc-950">{{ $property->total_rooms ?? '-' }}</p>
@@ -131,7 +131,7 @@
             </div>
 
             <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-zinc-200">
-                <h2 class="text-lg font-extrabold text-zinc-950">Hubungi Pemilik</h2>
+                <h2 class="text-lg font-extrabold text-zinc-950">Maklumat Pemilik</h2>
                 <div class="mt-4 space-y-2 text-sm text-zinc-600">
                     <p><span class="font-bold text-zinc-950">Nama:</span> {{ $property->owner?->name ?? 'Tidak dinyatakan' }}</p>
                     <p><span class="font-bold text-zinc-950">No. Telefon:</span> {{ $property->owner?->phone ?? 'Tidak dinyatakan' }}</p>

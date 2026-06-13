@@ -23,7 +23,7 @@ class PropertyReportResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFlag;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Pengurusan Rumah Sewa';
+    protected static string|UnitEnum|null $navigationGroup = 'Aduan & Maklum Balas';
 
     protected static ?string $navigationLabel = 'Aduan';
 

@@ -75,7 +75,7 @@ class PublicPortalTest extends TestCase
         $response
             ->assertOk()
             ->assertSee('Rumah Sewa Disahkan')
-            ->assertSee('Hubungi Pemilik')
+            ->assertSee('Maklumat Pemilik')
             ->assertSee('Nota: HEP menyediakan maklumat ini sebagai rujukan.');
     }
 
