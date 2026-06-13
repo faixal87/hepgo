@@ -1,0 +1,108 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Enums\GenderPreference;
+use App\Enums\PropertyAvailabilityStatus;
+use App\Enums\RecordStatus;
+use App\Enums\VerificationStatus;
+use App\Models\Area;
+use App\Models\Category;
+use App\Models\Owner;
+use App\Models\Property;
+use App\Models\User;
+use Database\Seeders\RolePermissionSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class AdminPanelTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->withoutVite();
+        $this->seed(RolePermissionSeeder::class);
+    }
+
+    public function test_admin_dashboard_shows_malay_stats(): void
+    {
+        $user = User::factory()->create();
+        $user->assignRole('super_admin');
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/admin');
+
+        $response
+            ->assertOk()
+            ->assertSee('Papan Pemuka HEP')
+            ->assertSee('Jumlah Rumah Sewa')
+            ->assertSee('Rumah Masih Kosong')
+            ->assertSee('Aduan Baharu');
+    }
+
+    public function test_property_edit_page_shows_image_and_status_log_management(): void
+    {
+        $user = User::factory()->create();
+        $user->assignRole('super_admin');
+        $property = $this->createProperty();
+
+        $response = $this
+            ->actingAs($user)
+            ->get("/admin/properties/{$property->id}/edit");
+
+        $response
+            ->assertOk()
+            ->assertSee('Gambar Rumah')
+            ->assertSee('Log Status Rumah')
+            ->assertSee('Set Masih Kosong')
+            ->assertSee('Sahkan Rumah');
+    }
+
+    public function test_non_admin_user_cannot_access_admin_panel(): void
+    {
+        $user = User::factory()->create();
+        $user->assignRole('student');
+
+        $this
+            ->actingAs($user)
+            ->get('/admin')
+            ->assertForbidden();
+    }
+
+    private function createProperty(): Property
+    {
+        $owner = Owner::create([
+            'name' => 'Pemilik Ujian',
+            'phone' => '0123456789',
+            'whatsapp_number' => '0123456789',
+            'verification_status' => VerificationStatus::PENDING,
+        ]);
+
+        $area = Area::create([
+            'name' => 'Kawasan Ujian',
+            'status' => RecordStatus::ACTIVE,
+        ]);
+
+        $category = Category::create([
+            'name' => 'Kategori Ujian',
+            'status' => RecordStatus::ACTIVE,
+        ]);
+
+        return Property::create([
+            'owner_id' => $owner->id,
+            'title' => 'Rumah Sewa Admin',
+            'description' => 'Rumah sewa untuk ujian admin.',
+            'address' => 'Alamat rumah sewa admin.',
+            'area_id' => $area->id,
+            'category_id' => $category->id,
+            'price' => 500,
+            'status' => PropertyAvailabilityStatus::PENDING,
+            'verification_status' => VerificationStatus::PENDING,
+            'gender_preference' => GenderPreference::ANY,
+        ]);
+    }
+}
