@@ -55,5 +55,11 @@ return [
         'create facilities',
         'edit facilities',
         'delete facilities',
+        'view reports',
+        'create reports',
+        'edit reports',
+        'resolve reports',
+        'delete reports',
+        'export reports',
     ],
 ];

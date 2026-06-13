@@ -8,6 +8,7 @@
         $mainImage = $property->thumbnailUrl();
         $whatsappUrl = $property->whatsappUrl();
         $mapsUrl = $property->mapsUrl();
+        $directionUrl = $property->direction_url;
         $statusValue = $property->status?->value ?? $property->status;
         $statusClass = $statusValue === 'available'
             ? 'bg-emerald-100 text-emerald-800 ring-emerald-200'
@@ -84,7 +85,7 @@
                         <p class="mt-1 font-extrabold text-zinc-950">{{ $property->category?->name ?? 'Tidak dinyatakan' }}</p>
                     </div>
                     <div class="rounded-2xl bg-zinc-50 p-4">
-                        <p class="font-bold text-zinc-500">Jarak Dari Kampus</p>
+                        <p class="font-bold text-zinc-500">Jarak Dari POLIMAS</p>
                         <p class="mt-1 font-extrabold text-zinc-950">
                             {{ filled($property->distance_km) ? number_format((float) $property->distance_km, 1).' km' : 'Tidak dinyatakan' }}
                         </p>
@@ -146,15 +147,23 @@
 
                     @if ($mapsUrl)
                         <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="rounded-2xl bg-amber-400 px-4 py-3 text-center text-sm font-extrabold text-zinc-950 shadow-sm transition hover:bg-amber-300">
-                            Google Maps
+                            Peta Rumah
                         </a>
                     @endif
 
-                    <button type="button" class="rounded-2xl bg-zinc-100 px-4 py-3 text-center text-sm font-extrabold text-zinc-500 ring-1 ring-zinc-200">
+                    @if ($directionUrl)
+                        <a href="{{ $directionUrl }}" target="_blank" rel="noopener" class="rounded-2xl bg-cyan-600 px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-cyan-700">
+                            Arah Ke POLIMAS
+                        </a>
+                    @endif
+
+                    <a href="{{ route('reports.create.property', $property) }}" class="rounded-2xl bg-zinc-100 px-4 py-3 text-center text-sm font-extrabold text-zinc-700 ring-1 ring-zinc-200 transition hover:bg-zinc-200">
                         Laporkan Maklumat
-                    </button>
+                    </a>
                 </div>
-                <p class="mt-3 text-xs font-semibold leading-5 text-zinc-500">Modul laporan akan diaktifkan dalam sprint akan datang.</p>
+                @if (filled($property->distance_km))
+                    <p class="mt-3 text-xs font-semibold leading-5 text-zinc-500">Jarak anggaran: {{ number_format((float) $property->distance_km, 1) }} km dari POLIMAS</p>
+                @endif
             </div>
 
             <div class="rounded-3xl bg-emerald-50 p-5 text-sm font-semibold leading-7 text-emerald-950 ring-1 ring-emerald-100">

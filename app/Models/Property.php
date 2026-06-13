@@ -50,6 +50,8 @@ class Property extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const POLIMAS_DESTINATION = 'POLIMAS, Jitra, Kedah, Malaysia';
+
     protected function casts(): array
     {
         return [
@@ -120,6 +122,11 @@ class Property extends Model
         return $this->hasMany(PropertyStatusLog::class);
     }
 
+    public function reports(): HasMany
+    {
+        return $this->hasMany(PropertyReport::class);
+    }
+
     public function scopePubliclyVisible(Builder $query): Builder
     {
         return $query
@@ -172,5 +179,25 @@ class Property extends Model
         }
 
         return null;
+    }
+
+    public function getDirectionUrlAttribute(): ?string
+    {
+        $origin = null;
+
+        if (filled($this->latitude) && filled($this->longitude)) {
+            $origin = "{$this->latitude},{$this->longitude}";
+        } elseif (filled($this->address)) {
+            $origin = $this->address;
+        }
+
+        if (blank($origin)) {
+            return null;
+        }
+
+        return 'https://www.google.com/maps/dir/?api=1'
+            .'&origin='.rawurlencode($origin)
+            .'&destination='.rawurlencode(self::POLIMAS_DESTINATION)
+            .'&travelmode=driving';
     }
 }

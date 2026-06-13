@@ -7,12 +7,14 @@ use App\Models\Category;
 use App\Models\Facility;
 use App\Models\Owner;
 use App\Models\Property;
+use App\Models\PropertyReport;
 use App\Models\User;
 use App\Policies\AreaPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\FacilityPolicy;
 use App\Policies\OwnerPolicy;
 use App\Policies\PropertyPolicy;
+use App\Policies\PropertyReportPolicy;
 use App\Policies\UserPolicy;
 use Carbon\Carbon;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -43,10 +45,19 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Facility::class, FacilityPolicy::class);
         Gate::policy(Owner::class, OwnerPolicy::class);
         Gate::policy(Property::class, PropertyPolicy::class);
+        Gate::policy(PropertyReport::class, PropertyReportPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
+
+        RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(5)->by($request->input('email').'|'.$request->ip());
+        });
 
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+
+        RateLimiter::for('public-reports', function (Request $request) {
+            return Limit::perMinute(5)->by($request->ip());
         });
     }
 }

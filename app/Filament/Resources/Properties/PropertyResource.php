@@ -129,7 +129,7 @@ class PropertyResource extends Resource
                         ->prefix('RM'),
 
                     TextInput::make('distance_km')
-                        ->label('Jarak Dari Kampus')
+                        ->label('Jarak Dari POLIMAS (km)')
                         ->numeric()
                         ->suffix('km'),
 

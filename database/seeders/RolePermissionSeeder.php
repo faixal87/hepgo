@@ -56,10 +56,16 @@ class RolePermissionSeeder extends Seeder
             'create facilities',
             'edit facilities',
             'delete facilities',
+            'view reports',
+            'create reports',
+            'edit reports',
+            'resolve reports',
+            'export reports',
         ]);
 
         $roles['hep_staff']->syncPermissions([
             'view dashboard',
+            'access api',
             'view users',
             'edit users',
             'view owners',
@@ -74,6 +80,10 @@ class RolePermissionSeeder extends Seeder
             'view areas',
             'view categories',
             'view facilities',
+            'view reports',
+            'create reports',
+            'edit reports',
+            'resolve reports',
         ]);
 
         $roles['owner']->syncPermissions(['view dashboard']);

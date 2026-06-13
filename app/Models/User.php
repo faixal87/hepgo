@@ -70,4 +70,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(PropertyStatusLog::class, 'changed_by');
     }
+
+    public function handledPropertyReports(): HasMany
+    {
+        return $this->hasMany(PropertyReport::class, 'handled_by');
+    }
 }

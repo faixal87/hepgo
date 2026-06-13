@@ -3,9 +3,11 @@
 namespace App\Filament\Widgets;
 
 use App\Enums\PropertyAvailabilityStatus;
+use App\Enums\ReportStatus;
 use App\Enums\VerificationStatus;
 use App\Models\Owner;
 use App\Models\Property;
+use App\Models\PropertyReport;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -56,10 +58,10 @@ class PortalOverviewWidget extends StatsOverviewWidget
                 ->descriptionIcon(Heroicon::OutlinedUserGroup)
                 ->color('primary'),
 
-            Stat::make('Aduan Baharu', 0)
-                ->description('Placeholder modul aduan Sprint 5')
+            Stat::make('Aduan Baharu', PropertyReport::query()->where('status', ReportStatus::NEW->value)->count())
+                ->description('Aduan awam yang belum disemak')
                 ->descriptionIcon(Heroicon::OutlinedFlag)
-                ->color('gray'),
+                ->color('warning'),
         ];
     }
 }

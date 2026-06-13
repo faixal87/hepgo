@@ -2,6 +2,7 @@
     $thumbnailUrl = $property->thumbnailUrl();
     $whatsappUrl = $property->whatsappUrl();
     $mapsUrl = $property->mapsUrl();
+    $directionUrl = $property->direction_url;
     $statusValue = $property->status?->value ?? $property->status;
     $statusLabel = $property->status?->label() ?? $statusValue;
     $genderLabel = $property->gender_preference?->label() ?? $property->gender_preference;
@@ -69,7 +70,7 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-3 gap-2">
+        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
             <a href="{{ route('properties.show', $property) }}" class="rounded-xl bg-zinc-950 px-3 py-2 text-center text-xs font-bold text-white shadow-sm transition hover:bg-zinc-800">
                 Lihat Maklumat
             </a>
@@ -84,8 +85,11 @@
                 <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="rounded-xl bg-amber-400 px-3 py-2 text-center text-xs font-bold text-zinc-950 shadow-sm transition hover:bg-amber-300">
                     Peta
                 </a>
-            @else
-                <span class="rounded-xl bg-zinc-100 px-3 py-2 text-center text-xs font-bold text-zinc-400">Peta</span>
+            @endif
+            @if ($directionUrl)
+                <a href="{{ $directionUrl }}" target="_blank" rel="noopener" class="rounded-xl bg-cyan-600 px-3 py-2 text-center text-xs font-bold text-white shadow-sm transition hover:bg-cyan-700">
+                    Arah Ke POLIMAS
+                </a>
             @endif
         </div>
     </div>
