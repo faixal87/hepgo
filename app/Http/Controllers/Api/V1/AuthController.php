@@ -10,7 +10,6 @@ use App\Support\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -32,9 +31,9 @@ class AuthController extends Controller
             ->first();
 
         if (! $user || ! Hash::check($credentials['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => 'Emel atau kata laluan tidak sah.',
-            ]);
+            return $this->errorResponse([
+                'email' => ['Emel atau kata laluan tidak sah.'],
+            ], 'Emel atau kata laluan tidak sah.', 422);
         }
 
         if ($user->status !== UserStatus::ACTIVE) {
@@ -42,9 +41,11 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('android-app')->plainTextToken;
+        $user->forceFill(['last_login_at' => now()])->save();
 
         return $this->successResponse([
             'token' => $token,
+            'token_type' => 'Bearer',
             'user' => (new UserResource($user))->resolve($request),
             'roles' => $user->getRoleNames()->values(),
             'permissions' => $user->getAllPermissions()->pluck('name')->values(),
@@ -60,8 +61,9 @@ class AuthController extends Controller
 
     public function profile(Request $request): JsonResponse
     {
-        return $this->successResponse([
-            'user' => (new UserResource($request->user()))->resolve($request),
-        ]);
+        return $this->successResponse(
+            (new UserResource($request->user()))->resolve($request),
+            'Profil pengguna berjaya dipaparkan.'
+        );
     }
 }

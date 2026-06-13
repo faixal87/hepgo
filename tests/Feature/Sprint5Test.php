@@ -90,8 +90,8 @@ class Sprint5Test extends TestCase
                 'tajuk' => 'Rumah Tidak Disahkan API',
             ]);
 
-        $this->assertNotNull($response->json('data.items.0.direction_url'));
-        $this->assertSame($visibleProperty->id, $response->json('data.items.0.id'));
+        $this->assertNotNull($response->json('data.0.direction_url'));
+        $this->assertSame($visibleProperty->id, $response->json('data.0.id'));
     }
 
     public function test_api_report_submission_uses_standard_response(): void

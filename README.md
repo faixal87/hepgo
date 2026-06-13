@@ -58,6 +58,7 @@ API Base URL: /api/v1
 
 ```text
 GET  /api/v1/health
+GET  /api/v1/app-config
 GET  /api/v1/properties
 GET  /api/v1/properties/{property}
 GET  /api/v1/areas
@@ -67,6 +68,9 @@ POST /api/v1/reports
 POST /api/v1/login
 POST /api/v1/logout
 GET  /api/v1/profile
+GET  /api/v1/bookmarks
+POST /api/v1/bookmarks/{property}
+DELETE /api/v1/bookmarks/{property}
 ```
 
 Endpoint admin API:
@@ -85,6 +89,8 @@ PATCH /api/v1/admin/reports/{report}/resolve
 
 - Panduan ringkas: `docs/PANDUAN_RINGKAS.md`
 - Senarai semak ujian: `docs/UJIAN_SISTEM.md`
+- Dokumentasi API Android / Flutter: `docs/API_ANDROID.md`
+- Koleksi API Postman / Thunder Client: `docs/api_collection.json`
 
 ## Peringatan Workflow GitHub
 

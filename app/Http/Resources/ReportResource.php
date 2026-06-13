@@ -16,6 +16,8 @@ class ReportResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $isAdminRoute = str_starts_with((string) $request->route()?->getName(), 'api.v1.admin.');
+
         return [
             'id' => $this->id,
             'rumah_sewa' => $this->whenLoaded('property', fn (): ?array => $this->property ? [
@@ -30,9 +32,9 @@ class ReportResource extends JsonResource
             'mesej_aduan' => $this->message,
             'status_aduan' => $this->status?->label(),
             'status_aduan_kod' => $this->status?->value,
-            'dikendalikan_oleh' => $this->handledBy?->name,
-            'tarikh_dikendalikan' => $this->handled_at?->toISOString(),
-            'catatan_admin' => $this->admin_remarks,
+            'dikendalikan_oleh' => $this->when($isAdminRoute, $this->handledBy?->name),
+            'tarikh_dikendalikan' => $this->when($isAdminRoute, $this->handled_at?->toISOString()),
+            'catatan_admin' => $this->when($isAdminRoute, $this->admin_remarks),
             'tarikh_aduan' => $this->created_at?->toISOString(),
         ];
     }

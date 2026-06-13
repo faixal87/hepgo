@@ -11,6 +11,8 @@ use Spatie\Permission\Exceptions\UnauthorizedException;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -79,5 +81,41 @@ return Application::configure(basePath: dirname(__DIR__))
                 'message' => 'Akses tidak dibenarkan.',
                 'errors' => (object) [],
             ], 403);
+        });
+
+        $exceptions->render(function (NotFoundHttpException $exception, Request $request) {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Rekod tidak ditemui.',
+                'errors' => (object) [],
+            ], 404);
+        });
+
+        $exceptions->render(function (HttpExceptionInterface $exception, Request $request) {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getStatusCode() >= 500 ? 'Ralat pelayan.' : 'Ralat',
+                'errors' => (object) [],
+            ], $exception->getStatusCode());
+        });
+
+        $exceptions->render(function (Throwable $exception, Request $request) {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Ralat pelayan.',
+                'errors' => (object) [],
+            ], 500);
         });
     })->create();

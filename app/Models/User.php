@@ -75,4 +75,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(PropertyReport::class, 'handled_by');
     }
+
+    public function propertyBookmarks(): HasMany
+    {
+        return $this->hasMany(PropertyBookmark::class);
+    }
 }

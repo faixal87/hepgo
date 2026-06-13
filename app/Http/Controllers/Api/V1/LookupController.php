@@ -20,36 +20,39 @@ class LookupController extends Controller
 
     public function areas(Request $request): JsonResponse
     {
-        return $this->successResponse([
-            'items' => AreaResource::collection(
+        return $this->successResponse(
+            AreaResource::collection(
                 Area::query()
                     ->where('status', RecordStatus::ACTIVE->value)
                     ->orderBy('name')
                     ->get()
             )->resolve($request),
-        ]);
+            'Senarai kawasan berjaya dipaparkan.'
+        );
     }
 
     public function categories(Request $request): JsonResponse
     {
-        return $this->successResponse([
-            'items' => CategoryResource::collection(
+        return $this->successResponse(
+            CategoryResource::collection(
                 Category::query()
                     ->where('status', RecordStatus::ACTIVE->value)
                     ->orderBy('name')
                     ->get()
             )->resolve($request),
-        ]);
+            'Senarai kategori berjaya dipaparkan.'
+        );
     }
 
     public function facilities(Request $request): JsonResponse
     {
-        return $this->successResponse([
-            'items' => FacilityResource::collection(
+        return $this->successResponse(
+            FacilityResource::collection(
                 Facility::query()
                     ->orderBy('name')
                     ->get()
             )->resolve($request),
-        ]);
+            'Senarai kemudahan berjaya dipaparkan.'
+        );
     }
 }

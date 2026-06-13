@@ -57,12 +57,12 @@ class Sprint6Test extends TestCase
         $response
             ->assertOk()
             ->assertJsonPath('success', true)
-            ->assertJsonPath('data.items.0.id', $property->id)
-            ->assertJsonPath('data.items.0.status_label', 'Masih Kosong')
-            ->assertJsonPath('data.items.0.jarak_label', 'Jarak anggaran dari POLIMAS')
-            ->assertJsonPath('data.items.0.penerangan_ringkas', 'Rumah sewa untuk ujian Sprint 6.')
-            ->assertJsonMissingPath('data.items.0.pemilik.no_kad_pengenalan')
-            ->assertJsonMissingPath('data.items.0.deleted_at');
+            ->assertJsonPath('data.0.id', $property->id)
+            ->assertJsonPath('data.0.status_label', 'Masih Kosong')
+            ->assertJsonPath('data.0.jarak_label', 'Jarak anggaran: 1.5 km dari POLIMAS')
+            ->assertJsonPath('data.0.penerangan_ringkas', 'Rumah sewa untuk ujian Sprint 6.')
+            ->assertJsonMissingPath('data.0.pemilik.no_kad_pengenalan')
+            ->assertJsonMissingPath('data.0.deleted_at');
     }
 
     public function test_public_detail_hides_house_map_button_when_maps_url_is_empty_but_keeps_direction(): void

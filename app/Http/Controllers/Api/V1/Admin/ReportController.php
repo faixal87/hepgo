@@ -22,15 +22,17 @@ class ReportController extends Controller
             ->latest()
             ->paginate(15);
 
-        return $this->successResponse([
-            'items' => ReportResource::collection($reports->getCollection())->resolve($request),
-            'meta' => [
-                'halaman_semasa' => $reports->currentPage(),
-                'halaman_akhir' => $reports->lastPage(),
-                'setiap_halaman' => $reports->perPage(),
-                'jumlah' => $reports->total(),
-            ],
-        ]);
+        return $this->successResponse(
+            ReportResource::collection($reports->getCollection())->resolve($request),
+            'Senarai data berjaya dipaparkan.',
+            200,
+            [
+                'current_page' => $reports->currentPage(),
+                'last_page' => $reports->lastPage(),
+                'per_page' => $reports->perPage(),
+                'total' => $reports->total(),
+            ]
+        );
     }
 
     public function resolve(ResolveReportRequest $request, PropertyReport $report): JsonResponse

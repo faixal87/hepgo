@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Api\V1;
 use App\Enums\GenderPreference;
 use App\Enums\PropertyAvailabilityStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PropertyCollection;
+use App\Http\Requests\Api\V1\PropertyIndexRequest;
 use App\Http\Resources\PropertyResource;
+use App\Http\Resources\PropertySummaryResource;
 use App\Models\Property;
 use App\Support\ApiResponse;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,16 +18,33 @@ class PropertyController extends Controller
 {
     use ApiResponse;
 
-    public function index(Request $request): JsonResponse
+    public function index(PropertyIndexRequest $request): JsonResponse
     {
         $query = Property::query()
             ->publiclyVisible()
             ->with(['area', 'category', 'facilities', 'images', 'owner', 'thumbnailImage']);
 
         $this->applyFilters($query, $request);
+        $properties = $query
+            ->paginate((int) $request->integer('per_page', 12))
+            ->withQueryString();
 
         return $this->successResponse(
-            (new PropertyCollection($query->paginate(12)->withQueryString()))->resolve($request)
+            PropertySummaryResource::collection($properties->getCollection())->resolve($request),
+            'Senarai data berjaya dipaparkan.',
+            200,
+            [
+                'current_page' => $properties->currentPage(),
+                'last_page' => $properties->lastPage(),
+                'per_page' => $properties->perPage(),
+                'total' => $properties->total(),
+                'links' => [
+                    'first' => $properties->url(1),
+                    'last' => $properties->url($properties->lastPage()),
+                    'prev' => $properties->previousPageUrl(),
+                    'next' => $properties->nextPageUrl(),
+                ],
+            ]
         );
     }
 
@@ -50,8 +68,10 @@ class PropertyController extends Controller
 
     private function applyFilters(Builder $query, Request $request): void
     {
-        if ($request->filled('search')) {
-            $keyword = '%'.trim((string) $request->query('search')).'%';
+        $validated = $request->validated();
+
+        if (filled($validated['search'] ?? null)) {
+            $keyword = '%'.trim((string) $validated['search']).'%';
 
             $query->where(function (Builder $query) use ($keyword): void {
                 $query
@@ -63,31 +83,31 @@ class PropertyController extends Controller
         }
 
         foreach (['area_id', 'category_id'] as $field) {
-            if ($request->filled($field)) {
-                $query->where($field, $request->query($field));
+            if (filled($validated[$field] ?? null)) {
+                $query->where($field, $validated[$field]);
             }
         }
 
-        if ($request->filled('min_price')) {
-            $query->where('price', '>=', (float) $request->query('min_price'));
+        if (filled($validated['min_price'] ?? null)) {
+            $query->where('price', '>=', (float) $validated['min_price']);
         }
 
-        if ($request->filled('max_price')) {
-            $query->where('price', '<=', (float) $request->query('max_price'));
+        if (filled($validated['max_price'] ?? null)) {
+            $query->where('price', '<=', (float) $validated['max_price']);
         }
 
-        if (in_array($request->query('status'), [
+        if (in_array($validated['status'] ?? null, [
             PropertyAvailabilityStatus::AVAILABLE->value,
             PropertyAvailabilityStatus::FULL->value,
         ], true)) {
-            $query->where('status', $request->query('status'));
+            $query->where('status', $validated['status']);
         }
 
-        if (in_array($request->query('gender_preference'), GenderPreference::values(), true)) {
-            $query->where('gender_preference', $request->query('gender_preference'));
+        if (in_array($validated['gender_preference'] ?? null, GenderPreference::values(), true)) {
+            $query->where('gender_preference', $validated['gender_preference']);
         }
 
-        $facilityIds = collect($request->query('facilities', []))
+        $facilityIds = collect($validated['facilities'] ?? [])
             ->filter()
             ->map(fn ($facilityId) => (int) $facilityId)
             ->filter()
@@ -98,10 +118,10 @@ class PropertyController extends Controller
             $query->whereHas('facilities', fn (Builder $facilityQuery) => $facilityQuery->whereIn('facilities.id', $facilityIds));
         }
 
-        match ($request->query('sort')) {
-            'harga_rendah', 'price_asc' => $query->orderBy('price')->latest('id'),
-            'harga_tinggi', 'price_desc' => $query->orderByDesc('price')->latest('id'),
-            'jarak_terdekat', 'distance' => $query->orderByRaw('distance_km IS NULL')->orderBy('distance_km')->latest('id'),
+        match ($validated['sort'] ?? 'latest') {
+            'price_low', 'price_asc' => $query->orderBy('price')->latest('id'),
+            'price_high', 'price_desc' => $query->orderByDesc('price')->latest('id'),
+            'distance_near', 'distance' => $query->orderByRaw('distance_km IS NULL')->orderBy('distance_km')->latest('id'),
             default => $query->latest(),
         };
     }

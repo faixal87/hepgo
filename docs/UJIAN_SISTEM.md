@@ -39,6 +39,26 @@ Dokumen ini ialah senarai semak ringkas untuk demo, ujian penerimaan pengguna da
 - [ ] 33. Pastikan public tidak nampak rumah belum disahkan
 - [ ] 34. Pastikan data sensitif pemilik tidak keluar di API public
 
+## Senarai Semak Sprint 7
+
+- [ ] 35. Test GET /api/v1/app-config
+- [ ] 36. Test property list API dengan search
+- [ ] 37. Test property list API dengan filter kawasan
+- [ ] 38. Test property list API dengan filter harga
+- [ ] 39. Test property list API dengan sort price_low
+- [ ] 40. Test property detail API
+- [ ] 41. Confirm direction_url muncul dalam respons API
+- [ ] 42. Confirm maps_url muncul dalam respons API
+- [ ] 43. Test login API
+- [ ] 44. Test profile API dengan Bearer token
+- [ ] 45. Test logout API
+- [ ] 46. Test report API
+- [ ] 47. Test bookmark add
+- [ ] 48. Test bookmark list
+- [ ] 49. Test bookmark delete
+- [ ] 50. Confirm public API tidak expose owner IC number
+- [ ] 51. Confirm public API tidak expose admin remarks
+
 ## Arahan Ujian Ringkas
 
 Jalankan migrasi dan seed data demo:

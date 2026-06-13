@@ -7,7 +7,6 @@ use App\Http\Requests\Api\V1\StorePropertyRequest;
 use App\Http\Requests\Api\V1\UpdatePropertyAvailabilityRequest;
 use App\Http\Requests\Api\V1\UpdatePropertyRequest;
 use App\Http\Requests\Api\V1\VerifyPropertyRequest;
-use App\Http\Resources\PropertyCollection;
 use App\Http\Resources\PropertyResource;
 use App\Models\Property;
 use App\Services\PropertyStatusService;
@@ -27,7 +26,15 @@ class PropertyController extends Controller
             ->paginate(15);
 
         return $this->successResponse(
-            (new PropertyCollection($properties))->resolve($request)
+            PropertyResource::collection($properties->getCollection())->resolve($request),
+            'Senarai data berjaya dipaparkan.',
+            200,
+            [
+                'current_page' => $properties->currentPage(),
+                'last_page' => $properties->lastPage(),
+                'per_page' => $properties->perPage(),
+                'total' => $properties->total(),
+            ]
         );
     }
 

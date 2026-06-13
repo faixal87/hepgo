@@ -1,0 +1,156 @@
+{
+  "info": {
+    "name": "Portal Rumah Sewa HEP API v1",
+    "description": "Koleksi request asas untuk ujian API Android / Flutter Portal Rumah Sewa HEP.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "property_id",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "App Config",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/app-config",
+        "header": [{ "key": "Accept", "value": "application/json" }]
+      }
+    },
+    {
+      "name": "Senarai Rumah Sewa",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/properties?sort=latest&per_page=10",
+        "header": [{ "key": "Accept", "value": "application/json" }]
+      }
+    },
+    {
+      "name": "Maklumat Rumah Sewa",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/properties/{{property_id}}",
+        "header": [{ "key": "Accept", "value": "application/json" }]
+      }
+    },
+    {
+      "name": "Kawasan",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/areas",
+        "header": [{ "key": "Accept", "value": "application/json" }]
+      }
+    },
+    {
+      "name": "Kategori",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/categories",
+        "header": [{ "key": "Accept", "value": "application/json" }]
+      }
+    },
+    {
+      "name": "Kemudahan",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/facilities",
+        "header": [{ "key": "Accept", "value": "application/json" }]
+      }
+    },
+    {
+      "name": "Hantar Aduan",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/v1/reports",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"property_id\": {{property_id}},\n  \"report_type\": \"wrong_location\",\n  \"message\": \"Lokasi rumah sewa ini kelihatan tidak tepat.\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Log Masuk",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/v1/login",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@hep.test\",\n  \"password\": \"password\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Profil",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/profile",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ]
+      }
+    },
+    {
+      "name": "Log Keluar",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/v1/logout",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ]
+      }
+    },
+    {
+      "name": "Senarai Bookmark",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/bookmarks",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ]
+      }
+    },
+    {
+      "name": "Tambah Bookmark",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/v1/bookmarks/{{property_id}}",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ]
+      }
+    },
+    {
+      "name": "Padam Bookmark",
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/api/v1/bookmarks/{{property_id}}",
+        "header": [
+          { "key": "Accept", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ]
+      }
+    }
+  ]
+}

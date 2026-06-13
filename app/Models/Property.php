@@ -127,6 +127,11 @@ class Property extends Model
         return $this->hasMany(PropertyReport::class);
     }
 
+    public function bookmarks(): HasMany
+    {
+        return $this->hasMany(PropertyBookmark::class);
+    }
+
     public function scopePubliclyVisible(Builder $query): Builder
     {
         return $query

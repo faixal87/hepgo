@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Api\V1\Admin\PropertyController as AdminPropertyController;
 use App\Http\Controllers\Api\V1\Admin\ReportController as AdminReportController;
+use App\Http\Controllers\Api\V1\AppConfigController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\BookmarkController;
 use App\Http\Controllers\Api\V1\HealthController;
 use App\Http\Controllers\Api\V1\LookupController;
 use App\Http\Controllers\Api\V1\PropertyController;
@@ -13,6 +15,7 @@ Route::prefix('v1')
     ->name('api.v1.')
     ->group(function (): void {
         Route::get('health', HealthController::class)->name('health');
+        Route::get('app-config', AppConfigController::class)->name('app-config');
 
         Route::post('login', [AuthController::class, 'login'])
             ->middleware('throttle:login')
@@ -30,6 +33,9 @@ Route::prefix('v1')
         Route::middleware('auth:sanctum')->group(function (): void {
             Route::post('logout', [AuthController::class, 'logout'])->name('logout');
             Route::get('profile', [AuthController::class, 'profile'])->name('profile');
+            Route::get('bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
+            Route::post('bookmarks/{property}', [BookmarkController::class, 'store'])->name('bookmarks.store');
+            Route::delete('bookmarks/{property}', [BookmarkController::class, 'destroy'])->name('bookmarks.destroy');
 
             Route::prefix('admin')
                 ->name('admin.')
