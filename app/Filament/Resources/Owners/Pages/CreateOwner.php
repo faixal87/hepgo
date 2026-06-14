@@ -18,6 +18,10 @@ class CreateOwner extends CreateRecord
 
     protected function getCreatedNotificationTitle(): ?string
     {
+        if (auth()->user()?->hasRole('staff_jabatan')) {
+            return 'Maklumat pemilik rumah berjaya dihantar untuk semakan HEP';
+        }
+
         return 'Pemilik rumah berjaya ditambah';
     }
 }

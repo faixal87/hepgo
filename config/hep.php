@@ -5,6 +5,7 @@ return [
         'super_admin' => 'Pentadbir Utama',
         'hep_admin' => 'Admin HEP',
         'hep_staff' => 'Staf HEP',
+        'staff_jabatan' => 'Staf Jabatan',
         'owner' => 'Pemilik Rumah',
         'student' => 'Pelajar',
         'parent' => 'Ibu Bapa / Penjaga',
@@ -15,6 +16,7 @@ return [
         'super_admin',
         'hep_admin',
         'hep_staff',
+        'staff_jabatan',
     ],
 
     'public_registration_roles' => [

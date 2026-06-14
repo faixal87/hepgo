@@ -8,6 +8,7 @@ Antara fungsi utama:
 - Carian dan tapisan rumah sewa menggunakan Livewire.
 - Panel admin Filament untuk HEP.
 - Pengurusan pemilik rumah, kawasan, kategori, kemudahan, rumah sewa, gambar dan aduan.
+- Peranan Staf Jabatan untuk menghantar maklumat rumah sewa kepada HEP sebelum proses pengesahan.
 - Integrasi Google Maps untuk `Peta Rumah` dan `Arah Ke POLIMAS`.
 - REST API v1 untuk persediaan aplikasi Android.
 - Pengesahan API menggunakan Sanctum.

@@ -102,6 +102,7 @@ PATCH /api/v1/admin/reports/{report}/resolve
 - Pentadbir Utama: Mengurus semua modul, pengguna, peranan dan kebenaran sistem.
 - Admin HEP: Mengurus operasi utama rumah sewa, pemilik rumah, aduan dan data rujukan.
 - Staf HEP: Membantu mengemaskini rekod pemilik, rumah sewa dan aduan.
+- Staf Jabatan: Mengumpul dan menghantar maklumat pemilik serta rumah sewa kepada HEP untuk semakan sebelum dipaparkan di portal.
 - Pemilik Rumah: Peranan untuk pemilik rumah yang akan digunakan dalam fungsi portal pemilik pada masa hadapan.
 - Pelajar: Pengguna sasaran yang mencari maklumat rumah sewa luar kampus.
 - Ibu Bapa / Penjaga: Pengguna sasaran yang membantu pelajar menyemak pilihan penginapan.

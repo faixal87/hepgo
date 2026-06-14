@@ -86,6 +86,22 @@ class RolePermissionSeeder extends Seeder
             'resolve reports',
         ]);
 
+        $roles['staff_jabatan']->syncPermissions([
+            'view dashboard',
+            'access api',
+            'view owners',
+            'create owners',
+            'edit owners',
+            'view properties',
+            'create properties',
+            'edit properties',
+            'view areas',
+            'view categories',
+            'view facilities',
+            'view reports',
+            'create reports',
+        ]);
+
         $roles['owner']->syncPermissions(['view dashboard']);
         $roles['student']->syncPermissions(['view dashboard']);
         $roles['parent']->syncPermissions(['view dashboard']);

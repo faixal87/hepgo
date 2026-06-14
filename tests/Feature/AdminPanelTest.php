@@ -73,7 +73,38 @@ class AdminPanelTest extends TestCase
             ->assertForbidden();
     }
 
-    private function createProperty(): Property
+    public function test_department_staff_can_submit_records_but_cannot_verify_or_publish(): void
+    {
+        $user = User::factory()->create();
+        $user->assignRole('staff_jabatan');
+        $property = $this->createProperty(['created_by' => $user->id]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get("/admin/properties/{$property->id}/edit");
+
+        $response
+            ->assertOk()
+            ->assertSee('Rumah Sewa Admin')
+            ->assertDontSee('Sahkan Rumah')
+            ->assertDontSee('Tolak Rumah')
+            ->assertDontSee('Set Masih Kosong')
+            ->assertDontSee('Set Telah Penuh');
+
+        $verifiedProperty = $this->createProperty([
+            'title' => 'Rumah Telah Disahkan',
+            'created_by' => $user->id,
+            'verification_status' => VerificationStatus::VERIFIED,
+        ]);
+
+        $this->assertTrue($user->can('create', Property::class));
+        $this->assertTrue($user->can('update', $property));
+        $this->assertFalse($user->can('verify', $property));
+        $this->assertFalse($user->can('updateAvailability', $property));
+        $this->assertFalse($user->can('update', $verifiedProperty));
+    }
+
+    private function createProperty(array $overrides = []): Property
     {
         $owner = Owner::create([
             'name' => 'Pemilik Ujian',
@@ -82,17 +113,17 @@ class AdminPanelTest extends TestCase
             'verification_status' => VerificationStatus::PENDING,
         ]);
 
-        $area = Area::create([
-            'name' => 'Kawasan Ujian',
-            'status' => RecordStatus::ACTIVE,
-        ]);
+        $area = Area::firstOrCreate(
+            ['name' => 'Kawasan Ujian'],
+            ['status' => RecordStatus::ACTIVE]
+        );
 
-        $category = Category::create([
-            'name' => 'Kategori Ujian',
-            'status' => RecordStatus::ACTIVE,
-        ]);
+        $category = Category::firstOrCreate(
+            ['name' => 'Kategori Ujian'],
+            ['status' => RecordStatus::ACTIVE]
+        );
 
-        return Property::create([
+        return Property::create(array_merge([
             'owner_id' => $owner->id,
             'title' => 'Rumah Sewa Admin',
             'description' => 'Rumah sewa untuk ujian admin.',
@@ -103,6 +134,6 @@ class AdminPanelTest extends TestCase
             'status' => PropertyAvailabilityStatus::PENDING,
             'verification_status' => VerificationStatus::PENDING,
             'gender_preference' => GenderPreference::ANY,
-        ]);
+        ], $overrides));
     }
 }

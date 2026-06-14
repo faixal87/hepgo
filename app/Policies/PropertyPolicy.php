@@ -24,6 +24,12 @@ class PropertyPolicy
 
     public function update(User $user, Property $property): bool
     {
+        if ($user->hasRole('staff_jabatan')) {
+            return $user->can('edit properties')
+                && $property->created_by === $user->id
+                && $property->verification_status?->value !== 'verified';
+        }
+
         return $user->can('edit properties');
     }
 

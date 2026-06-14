@@ -24,6 +24,12 @@ class OwnerPolicy
 
     public function update(User $user, Owner $owner): bool
     {
+        if ($user->hasRole('staff_jabatan')) {
+            return $user->can('edit owners')
+                && $owner->created_by === $user->id
+                && $owner->verification_status?->value !== 'verified';
+        }
+
         return $user->can('edit owners');
     }
 

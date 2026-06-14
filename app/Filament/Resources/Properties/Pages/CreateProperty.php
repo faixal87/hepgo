@@ -18,6 +18,10 @@ class CreateProperty extends CreateRecord
 
     protected function getCreatedNotificationTitle(): ?string
     {
+        if (auth()->user()?->hasRole('staff_jabatan')) {
+            return 'Rumah sewa berjaya dihantar untuk semakan HEP';
+        }
+
         return 'Rumah sewa berjaya ditambah';
     }
 }
