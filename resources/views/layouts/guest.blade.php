@@ -16,14 +16,10 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="flex min-h-screen flex-col items-center bg-gradient-to-br from-slate-50 via-white to-orange-50 px-4 pt-6 sm:justify-center sm:pt-0">
-            <div class="flex flex-col items-center gap-3">
+            <div class="flex flex-col items-center">
                 <a href="/" class="flex justify-center">
                     <x-application-logo class="h-20 w-auto object-contain sm:h-24" />
                 </a>
-                <div class="text-center leading-tight">
-                    <p class="text-xl font-black text-blue-900">Portal Rumah Sewa HEP</p>
-                    <p class="mt-1 text-xs font-bold uppercase tracking-wide text-orange-700">POLIMAS</p>
-                </div>
             </div>
 
             <div class="mt-6 w-full overflow-hidden rounded-3xl bg-white px-6 py-6 shadow-xl shadow-slate-200/70 ring-1 ring-slate-200 sm:max-w-md">

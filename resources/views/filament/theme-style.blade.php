@@ -30,9 +30,18 @@
         color: rgb(255 255 255 / 0.88);
     }
 
-    .fi-sidebar .fi-sidebar-item-active,
-    .fi-sidebar .fi-sidebar-item-button:hover {
+    .fi-sidebar .fi-sidebar-item.fi-active > .fi-sidebar-item-btn,
+    .fi-sidebar .fi-sidebar-item-btn:hover {
         background: rgb(255 255 255 / 0.13);
+    }
+
+    .fi-sidebar .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
+        background: rgb(255 255 255 / 0.96);
+    }
+
+    .fi-sidebar .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-sidebar-item-label,
+    .fi-sidebar .fi-sidebar-item.fi-active > .fi-sidebar-item-btn .fi-sidebar-item-icon {
+        color: rgb(15 23 42 / 0.92);
     }
 
     .fi-topbar nav,
