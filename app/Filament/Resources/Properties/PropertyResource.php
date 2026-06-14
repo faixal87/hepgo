@@ -16,6 +16,7 @@ use App\Models\Property;
 use App\Services\PropertyStatusService;
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -446,13 +447,26 @@ class PropertyResource extends Resource
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                ...static::statusActions(),
+                Action::make('review_property')
+                    ->label('Review')
+                    ->icon(Heroicon::OutlinedClipboardDocumentCheck)
+                    ->color('warning')
+                    ->url(fn (Property $record): string => static::getUrl('edit', ['record' => $record]))
+                    ->visible(fn (Property $record): bool => (auth()->user()?->can('verify', $record) ?? false)
+                        && $record->verification_status !== VerificationStatus::VERIFIED),
                 EditAction::make()
                     ->label('Edit'),
-                DeleteAction::make()
-                    ->label('Delete'),
-                RestoreAction::make()
-                    ->label('Restore'),
+                ActionGroup::make([
+                    ...static::statusActions(),
+                    RestoreAction::make()
+                        ->label('Restore'),
+                    DeleteAction::make()
+                        ->label('Delete'),
+                ])
+                    ->label('More')
+                    ->icon(Heroicon::OutlinedEllipsisVertical)
+                    ->color('gray')
+                    ->tooltip('More actions'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
