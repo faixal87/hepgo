@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        Papan Pemuka
                     </x-nav-link>
                 </div>
             </div>
@@ -23,6 +23,14 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            @if (Auth::user()->profilePhotoUrl())
+                                <img src="{{ Auth::user()->profilePhotoUrl() }}" alt="Gambar profil {{ Auth::user()->name }}" class="me-2 h-8 w-8 rounded-full object-cover">
+                            @else
+                                <span class="me-2 grid h-8 w-8 place-items-center rounded-full bg-blue-900 text-xs font-black text-white">
+                                    {{ \Illuminate\Support\Str::of(Auth::user()->name)->substr(0, 1)->upper() }}
+                                </span>
+                            @endif
+
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
@@ -35,7 +43,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            Profil
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -45,7 +53,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                Log Keluar
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -68,20 +76,31 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                Papan Pemuka
             </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="flex items-center gap-3">
+                    @if (Auth::user()->profilePhotoUrl())
+                        <img src="{{ Auth::user()->profilePhotoUrl() }}" alt="Gambar profil {{ Auth::user()->name }}" class="h-10 w-10 rounded-full object-cover">
+                    @else
+                        <span class="grid h-10 w-10 place-items-center rounded-full bg-blue-900 text-sm font-black text-white">
+                            {{ \Illuminate\Support\Str::of(Auth::user()->name)->substr(0, 1)->upper() }}
+                        </span>
+                    @endif
+                    <div>
+                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    </div>
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    Profil
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
@@ -91,7 +110,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        Log Keluar
                     </x-responsive-nav-link>
                 </form>
             </div>

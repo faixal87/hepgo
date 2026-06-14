@@ -14,28 +14,28 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="min-h-screen bg-[#f5f7f2] font-sans text-zinc-900 antialiased">
+<body class="min-h-screen bg-orange-50 font-sans text-zinc-900 antialiased">
     <div class="min-h-screen">
         <header class="sticky top-0 z-40 border-b border-white/70 bg-white/90 shadow-sm backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
                 <a href="{{ route('home') }}" class="flex items-center gap-3">
-                    <span class="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-700 text-sm font-extrabold text-white shadow-sm">HEP</span>
+                    <img src="{{ asset('images/logo_polimas.png') }}" alt="Logo POLIMAS" class="h-12 w-auto object-contain">
                     <span class="leading-tight">
-                        <span class="block text-sm font-extrabold text-zinc-950 sm:text-base">Portal Rumah Sewa</span>
-                        <span class="block text-xs font-medium text-zinc-500">Rujukan luar kampus</span>
+                        <span class="block text-sm font-extrabold text-zinc-950 sm:text-base">Portal Rumah Sewa HEP</span>
+                        <span class="block text-xs font-medium text-orange-700">Rujukan luar kampus POLIMAS</span>
                     </span>
                 </a>
 
                 <nav class="flex items-center gap-2 text-sm font-semibold">
-                    <a href="{{ route('properties.index') }}" class="rounded-full px-3 py-2 text-zinc-700 transition hover:bg-emerald-50 hover:text-emerald-800">
+                    <a href="{{ route('properties.index') }}" class="rounded-full px-3 py-2 text-zinc-700 transition hover:bg-orange-50 hover:text-orange-700">
                         Rumah Sewa
                     </a>
                     @auth
-                        <a href="/admin" class="rounded-full bg-zinc-950 px-4 py-2 text-white shadow-sm transition hover:bg-zinc-800">
+                        <a href="/admin" class="rounded-full bg-blue-700 px-4 py-2 text-white shadow-sm transition hover:bg-blue-800">
                             Panel Admin
                         </a>
                     @else
-                        <a href="{{ route('login') }}" class="rounded-full bg-zinc-950 px-4 py-2 text-white shadow-sm transition hover:bg-zinc-800">
+                        <a href="{{ route('login') }}" class="rounded-full bg-blue-700 px-4 py-2 text-white shadow-sm transition hover:bg-blue-800">
                             Log Masuk
                         </a>
                     @endauth

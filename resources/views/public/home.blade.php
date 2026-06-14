@@ -7,8 +7,18 @@
     <section class="relative overflow-hidden bg-white">
         <div class="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:items-center md:py-12 lg:px-8">
             <div class="space-y-6">
-                <div class="inline-flex rounded-full bg-emerald-50 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-emerald-800 ring-1 ring-emerald-100">
-                    Rujukan rasmi HEP
+                <div class="flex flex-wrap items-center gap-5">
+                    <div class="rounded-3xl bg-white px-5 py-4 shadow-sm ring-1 ring-orange-100">
+                        <img src="{{ asset('images/logo_polimas.png') }}" alt="Logo POLIMAS" class="h-20 w-auto object-contain sm:h-24">
+                    </div>
+                    <div class="leading-tight">
+                        <p class="text-sm font-extrabold uppercase text-orange-700">Portal Rumah Sewa HEP</p>
+                        <p class="mt-1 text-2xl font-black text-blue-900 sm:text-3xl">POLIMAS</p>
+                    </div>
+                </div>
+
+                <div class="inline-flex rounded-full bg-orange-50 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-orange-700 ring-1 ring-orange-100">
+                    Rujukan rasmi HEP POLIMAS
                 </div>
 
                 <div class="space-y-4">
@@ -20,7 +30,7 @@
                     </p>
                 </div>
 
-                <div class="rounded-2xl bg-amber-50 p-4 text-sm font-semibold leading-6 text-amber-900 ring-1 ring-amber-100">
+                <div class="rounded-2xl bg-orange-50 p-4 text-sm font-semibold leading-6 text-orange-900 ring-1 ring-orange-100">
                     HEP menyediakan maklumat sebagai rujukan. Urusan sewaan adalah antara pelajar/ibu bapa dan pemilik rumah.
                 </div>
 
@@ -31,21 +41,21 @@
                         name="keyword"
                         type="search"
                         placeholder="Cari kawasan, alamat atau nama rumah"
-                        class="min-h-12 rounded-xl border-zinc-200 bg-white text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                        class="min-h-12 rounded-xl border-zinc-200 bg-white text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500"
                     >
-                    <button type="submit" class="min-h-12 rounded-xl bg-emerald-700 px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-emerald-800">
+                    <button type="submit" class="min-h-12 rounded-xl bg-orange-600 px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-orange-700">
                         Cari Rumah
                     </button>
                 </form>
 
                 <div class="flex flex-wrap gap-2">
-                    <a href="{{ route('properties.index', ['status' => 'available']) }}" class="rounded-full bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-800 ring-1 ring-emerald-200">
+                    <a href="{{ route('properties.index', ['status' => 'available']) }}" class="rounded-full bg-orange-100 px-4 py-2 text-sm font-bold text-orange-800 ring-1 ring-orange-200">
                         Masih Kosong
                     </a>
-                    <a href="{{ route('properties.index', ['sort' => 'distance']) }}" class="rounded-full bg-cyan-100 px-4 py-2 text-sm font-bold text-cyan-800 ring-1 ring-cyan-200">
+                    <a href="{{ route('properties.index', ['sort' => 'distance']) }}" class="rounded-full bg-blue-100 px-4 py-2 text-sm font-bold text-blue-800 ring-1 ring-blue-200">
                         Jarak Terdekat
                     </a>
-                    <a href="{{ route('properties.index', ['gender' => 'family']) }}" class="rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-900 ring-1 ring-amber-200">
+                    <a href="{{ route('properties.index', ['gender' => 'family']) }}" class="rounded-full bg-orange-100 px-4 py-2 text-sm font-bold text-orange-800 ring-1 ring-orange-200">
                         Sesuai Keluarga
                     </a>
                     @foreach ($categories->take(2) as $category)
@@ -58,15 +68,15 @@
 
             <div class="grid gap-4">
                 <div class="grid grid-cols-3 gap-3">
-                    <div class="rounded-2xl bg-emerald-700 p-4 text-white shadow-sm">
+                    <div class="rounded-2xl bg-orange-600 p-4 text-white shadow-sm">
                         <p class="text-3xl font-extrabold">{{ number_format($verifiedCount) }}</p>
-                        <p class="mt-1 text-xs font-bold leading-5 text-emerald-50">Jumlah Rumah Disahkan</p>
+                        <p class="mt-1 text-xs font-bold leading-5 text-orange-50">Jumlah Rumah Disahkan</p>
                     </div>
-                    <div class="rounded-2xl bg-zinc-950 p-4 text-white shadow-sm">
+                    <div class="rounded-2xl bg-blue-800 p-4 text-white shadow-sm">
                         <p class="text-3xl font-extrabold">{{ number_format($availableCount) }}</p>
-                        <p class="mt-1 text-xs font-bold leading-5 text-zinc-200">Rumah Masih Kosong</p>
+                        <p class="mt-1 text-xs font-bold leading-5 text-blue-100">Rumah Masih Kosong</p>
                     </div>
-                    <div class="rounded-2xl bg-amber-300 p-4 text-zinc-950 shadow-sm">
+                    <div class="rounded-2xl bg-white p-4 text-blue-900 shadow-sm ring-1 ring-orange-100">
                         <p class="text-3xl font-extrabold">{{ number_format($areaCount) }}</p>
                         <p class="mt-1 text-xs font-bold leading-5">Kawasan Diliputi</p>
                     </div>
@@ -76,9 +86,9 @@
                     @if ($latestProperties->first()?->thumbnailUrl())
                         <img src="{{ $latestProperties->first()->thumbnailUrl() }}" alt="Gambar rumah sewa terkini" class="h-64 w-full object-cover opacity-90">
                     @else
-                        <div class="flex h-64 flex-col justify-end bg-gradient-to-br from-emerald-700 via-zinc-900 to-amber-300 p-6">
-                            <p class="max-w-xs text-2xl font-extrabold leading-tight text-white">Maklumat rumah sewa yang mudah disemak dari telefon.</p>
-                        </div>
+                    <div class="flex h-64 flex-col justify-end bg-gradient-to-br from-orange-600 via-blue-900 to-white p-6">
+                        <p class="max-w-xs text-2xl font-extrabold leading-tight text-white">Maklumat rumah sewa yang mudah disemak dari telefon.</p>
+                    </div>
                     @endif
                     <div class="grid grid-cols-2 gap-px bg-white/10 p-1">
                         @foreach ($areas->take(4) as $area)
@@ -95,7 +105,7 @@
     <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div class="mb-5 flex items-end justify-between gap-4">
             <div>
-                <p class="text-sm font-extrabold uppercase tracking-wide text-emerald-700">Pilihan terkini</p>
+                <p class="text-sm font-extrabold uppercase tracking-wide text-orange-700">Pilihan terkini</p>
                 <h2 class="mt-1 text-2xl font-extrabold text-zinc-950">Rumah Masih Kosong</h2>
             </div>
             <a href="{{ route('properties.index') }}" class="rounded-full bg-white px-4 py-2 text-sm font-bold text-zinc-700 shadow-sm ring-1 ring-zinc-200 transition hover:bg-zinc-50">
@@ -120,14 +130,14 @@
     <section class="bg-white">
         <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
             <div class="mb-6">
-                <p class="text-sm font-extrabold uppercase tracking-wide text-emerald-700">Cara guna portal</p>
+                <p class="text-sm font-extrabold uppercase tracking-wide text-orange-700">Cara guna portal</p>
                 <h2 class="mt-1 text-2xl font-extrabold text-zinc-950">Langkah Ringkas</h2>
             </div>
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach (['Pilih kawasan', 'Semak maklumat rumah', 'Hubungi pemilik', 'Laporkan jika maklumat tidak tepat'] as $index => $step)
-                    <div class="rounded-2xl bg-[#f5f7f2] p-5 shadow-sm ring-1 ring-zinc-200">
-                        <span class="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-700 text-sm font-extrabold text-white">{{ $index + 1 }}</span>
+                    <div class="rounded-2xl bg-orange-50 p-5 shadow-sm ring-1 ring-orange-100">
+                        <span class="grid h-10 w-10 place-items-center rounded-2xl bg-blue-800 text-sm font-extrabold text-white">{{ $index + 1 }}</span>
                         <p class="mt-4 text-base font-extrabold text-zinc-950">{{ $step }}</p>
                     </div>
                 @endforeach

@@ -182,14 +182,14 @@ new class extends Component
                     type="search"
                     wire:model.live.debounce.500ms="keyword"
                     placeholder="Tajuk, kawasan atau alamat"
-                    class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                    class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500"
                 >
             </div>
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
                 <div>
                     <label for="area" class="text-sm font-bold text-zinc-700">Kawasan</label>
-                    <select id="area" wire:model.live="area" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+                    <select id="area" wire:model.live="area" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500">
                         <option value="">Semua kawasan</option>
                         @foreach ($areas as $areaOption)
                             <option value="{{ $areaOption->id }}">{{ $areaOption->name }}</option>
@@ -199,7 +199,7 @@ new class extends Component
 
                 <div>
                     <label for="category" class="text-sm font-bold text-zinc-700">Kategori</label>
-                    <select id="category" wire:model.live="category" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+                    <select id="category" wire:model.live="category" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500">
                         <option value="">Semua kategori</option>
                         @foreach ($categories as $categoryOption)
                             <option value="{{ $categoryOption->id }}">{{ $categoryOption->name }}</option>
@@ -211,18 +211,18 @@ new class extends Component
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label for="priceMin" class="text-sm font-bold text-zinc-700">Harga Minimum</label>
-                    <input id="priceMin" type="number" min="0" step="50" wire:model.live.debounce.500ms="priceMin" placeholder="RM" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+                    <input id="priceMin" type="number" min="0" step="50" wire:model.live.debounce.500ms="priceMin" placeholder="RM" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500">
                 </div>
                 <div>
                     <label for="priceMax" class="text-sm font-bold text-zinc-700">Harga Maksimum</label>
-                    <input id="priceMax" type="number" min="0" step="50" wire:model.live.debounce.500ms="priceMax" placeholder="RM" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+                    <input id="priceMax" type="number" min="0" step="50" wire:model.live.debounce.500ms="priceMax" placeholder="RM" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500">
                 </div>
             </div>
 
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
                 <div>
                     <label for="status" class="text-sm font-bold text-zinc-700">Status Kekosongan</label>
-                    <select id="status" wire:model.live="status" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+                    <select id="status" wire:model.live="status" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500">
                         <option value="">Semua status</option>
                         @foreach ($statusOptions as $value => $label)
                             <option value="{{ $value }}">{{ $label }}</option>
@@ -232,7 +232,7 @@ new class extends Component
 
                 <div>
                     <label for="gender" class="text-sm font-bold text-zinc-700">Keutamaan Penyewa</label>
-                    <select id="gender" wire:model.live="gender" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+                    <select id="gender" wire:model.live="gender" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500">
                         <option value="">Semua keutamaan</option>
                         @foreach ($genderOptions as $value => $label)
                             <option value="{{ $value }}">{{ $label }}</option>
@@ -243,7 +243,7 @@ new class extends Component
 
             <div>
                 <label for="sort" class="text-sm font-bold text-zinc-700">Susunan</label>
-                <select id="sort" wire:model.live="sort" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
+                <select id="sort" wire:model.live="sort" class="mt-2 w-full rounded-2xl border-zinc-200 text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500">
                     @foreach ($sortOptions as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
                     @endforeach
@@ -255,7 +255,7 @@ new class extends Component
                 <div class="mt-2 grid gap-2">
                     @foreach ($facilityOptions as $facility)
                         <label class="flex items-center gap-3 rounded-2xl bg-zinc-50 px-3 py-2 text-sm font-semibold text-zinc-700 ring-1 ring-zinc-100">
-                            <input type="checkbox" value="{{ $facility->id }}" wire:model.live="facilities" class="rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500">
+                            <input type="checkbox" value="{{ $facility->id }}" wire:model.live="facilities" class="rounded border-zinc-300 text-orange-600 focus:ring-orange-500">
                             <span>{{ $facility->name }}</span>
                         </label>
                     @endforeach
@@ -270,7 +270,7 @@ new class extends Component
                 <p class="text-sm font-bold text-zinc-500">Jumlah ditemui</p>
                 <p class="text-2xl font-extrabold text-zinc-950">{{ number_format($properties->total()) }} rumah sewa</p>
             </div>
-            <div wire:loading.delay class="rounded-full bg-amber-100 px-4 py-2 text-sm font-bold text-amber-900 ring-1 ring-amber-200">
+            <div wire:loading.delay class="rounded-full bg-orange-100 px-4 py-2 text-sm font-bold text-orange-900 ring-1 ring-orange-200">
                 Sedang memuatkan...
             </div>
         </div>

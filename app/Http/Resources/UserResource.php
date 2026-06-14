@@ -24,6 +24,7 @@ class UserResource extends JsonResource
             'emel' => $this->email,
             'phone' => $this->phone,
             'no_telefon' => $this->phone,
+            'profile_photo_url' => $this->profilePhotoUrl(),
             'status' => $this->status?->value,
             'status_label' => $this->status?->label(),
             'roles' => $this->getRoleNames()->values(),

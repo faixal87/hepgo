@@ -14,10 +14,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['name', 'email', 'password', 'phone', 'status', 'last_login_at'])]
+#[Fillable(['name', 'email', 'password', 'phone', 'profile_photo_path', 'status', 'last_login_at'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser
 {
@@ -29,6 +30,15 @@ class User extends Authenticatable implements FilamentUser
         return $panel->getId() === 'admin'
             && $this->status === UserStatus::ACTIVE
             && $this->hasAnyRole(config('hep.admin_panel_roles'));
+    }
+
+    public function profilePhotoUrl(): ?string
+    {
+        if (blank($this->profile_photo_path)) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->profile_photo_path);
     }
 
     /**

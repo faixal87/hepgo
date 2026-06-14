@@ -1,5 +1,19 @@
 @php
     $thumbnailUrl = $property->thumbnailUrl();
+    $imageUrls = $property->images
+        ->sortBy([
+            ['is_thumbnail', 'desc'],
+            ['sort_order', 'asc'],
+            ['id', 'asc'],
+        ])
+        ->map(fn ($image) => $image->url())
+        ->filter()
+        ->values();
+
+    if ($imageUrls->isEmpty() && $thumbnailUrl) {
+        $imageUrls = collect([$thumbnailUrl]);
+    }
+
     $whatsappUrl = $property->whatsappUrl();
     $mapsUrl = filled($property->maps_url) ? $property->maps_url : null;
     $directionUrl = $property->direction_url;
@@ -7,8 +21,8 @@
     $statusLabel = $property->status?->label() ?? $statusValue;
     $genderLabel = $property->gender_preference?->label() ?? $property->gender_preference;
     $statusClass = $statusValue === 'available'
-        ? 'bg-emerald-100 text-emerald-800 ring-emerald-200'
-        : 'bg-rose-100 text-rose-800 ring-rose-200';
+        ? 'bg-orange-100 text-orange-800 ring-orange-200'
+        : 'bg-blue-100 text-blue-800 ring-blue-200';
     $facilityNames = $property->facilities->pluck('name');
     $booleanFacilities = collect([
         'Parking' => $property->has_parking,
@@ -21,12 +35,37 @@
 @endphp
 
 <article class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-zinc-200/80 transition hover:-translate-y-0.5 hover:shadow-md">
-    <div class="relative aspect-[4/3] overflow-hidden bg-emerald-50">
-        @if ($thumbnailUrl)
-            <img src="{{ $thumbnailUrl }}" alt="Gambar {{ $property->title }}" class="h-full w-full object-cover">
+    <div
+        class="relative aspect-[4/3] overflow-hidden bg-orange-50"
+        @if ($imageUrls->count() > 1)
+            x-data="{ active: 0, images: @js($imageUrls), timer: null }"
+            x-init="timer = setInterval(() => active = (active + 1) % images.length, 3500)"
+            x-on:mouseenter="clearInterval(timer)"
+            x-on:mouseleave="timer = setInterval(() => active = (active + 1) % images.length, 3500)"
+        @endif
+    >
+        @if ($imageUrls->isNotEmpty())
+            @if ($imageUrls->count() > 1)
+                <template x-for="(image, index) in images" :key="image">
+                    <img
+                        :src="image"
+                        alt="Gambar {{ $property->title }}"
+                        class="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
+                        x-bind:class="active === index ? 'opacity-100' : 'opacity-0'"
+                    >
+                </template>
+
+                <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
+                    @foreach ($imageUrls as $image)
+                        <span class="h-1.5 w-1.5 rounded-full bg-white/90 shadow ring-1 ring-zinc-900/10"></span>
+                    @endforeach
+                </div>
+            @else
+                <img src="{{ $imageUrls->first() }}" alt="Gambar {{ $property->title }}" class="h-full w-full object-cover">
+            @endif
         @else
-            <div class="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-emerald-100 via-white to-amber-100 px-6 text-center">
-                <span class="rounded-full bg-white/80 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-800">Rumah Sewa</span>
+            <div class="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-orange-100 via-white to-blue-100 px-6 text-center">
+                <span class="rounded-full bg-white/80 px-3 py-1 text-xs font-bold uppercase tracking-wide text-orange-800">Rumah Sewa</span>
                 <span class="text-sm font-semibold text-zinc-600">Gambar belum dimuat naik</span>
             </div>
         @endif
@@ -43,7 +82,7 @@
                 <h3 class="line-clamp-2 text-base font-extrabold leading-snug text-zinc-950">
                     {{ $property->title }}
                 </h3>
-                <p class="shrink-0 text-right text-sm font-extrabold text-emerald-700">
+                <p class="shrink-0 text-right text-sm font-extrabold text-orange-700">
                     RM{{ number_format((float) $property->price, 0) }}
                     <span class="block text-[11px] font-semibold text-zinc-500">sebulan</span>
                 </p>
@@ -53,42 +92,56 @@
                 <span class="rounded-full bg-zinc-100 px-2.5 py-1">{{ $property->area?->name ?? 'Kawasan tidak dinyatakan' }}</span>
                 <span class="rounded-full bg-zinc-100 px-2.5 py-1">{{ $property->category?->name ?? 'Kategori tidak dinyatakan' }}</span>
                 @if (filled($property->distance_km))
-                    <span class="rounded-full bg-amber-100 px-2.5 py-1 text-amber-800">{{ number_format((float) $property->distance_km, 1) }} km dari POLIMAS</span>
+                    <span class="rounded-full bg-orange-100 px-2.5 py-1 text-orange-800">{{ number_format((float) $property->distance_km, 1) }} km dari POLIMAS</span>
                 @endif
             </div>
 
             <p class="line-clamp-2 text-sm leading-6 text-zinc-600">
                 {{ \Illuminate\Support\Str::limit(strip_tags($property->description), 120) }}
             </p>
+
+            <div class="flex flex-wrap items-center gap-2 text-[11px] font-bold text-zinc-500">
+                <span>Disiarkan: {{ $property->created_at?->format('d/m/Y') ?? '-' }}</span>
+                @if ($property->updated_at && $property->created_at && $property->updated_at->gt($property->created_at->copy()->addMinute()))
+                    <span class="text-blue-700">Dikemaskini: {{ $property->updated_at->format('d/m/Y') }}</span>
+                @endif
+            </div>
         </div>
 
         @if ($keyFacilities->isNotEmpty())
             <div class="flex flex-wrap gap-2">
                 @foreach ($keyFacilities as $facility)
-                    <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800 ring-1 ring-emerald-100">{{ $facility }}</span>
+                    <span class="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-800 ring-1 ring-blue-100">{{ $facility }}</span>
                 @endforeach
             </div>
         @endif
 
-        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            <a href="{{ route('properties.show', $property) }}" class="rounded-xl bg-zinc-950 px-3 py-2 text-center text-xs font-bold text-white shadow-sm transition hover:bg-zinc-800">
-                Lihat Maklumat
+        <div class="grid grid-cols-4 gap-2">
+            <a href="{{ route('properties.show', $property) }}" title="Lihat Maklumat" aria-label="Lihat maklumat {{ $property->title }}" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-blue-900 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-blue-800">
+                <x-lucide-info class="h-5 w-5 shrink-0" />
+                <span class="block max-w-full">Info</span>
             </a>
             @if ($whatsappUrl)
-                <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="rounded-xl bg-emerald-600 px-3 py-2 text-center text-xs font-bold text-white shadow-sm transition hover:bg-emerald-700">
-                    WhatsApp
+                <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" title="WhatsApp" aria-label="Hubungi pemilik melalui WhatsApp" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-emerald-600 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-emerald-700">
+                    <x-lucide-message-circle class="h-5 w-5 shrink-0" />
+                    <span class="block max-w-full text-[9.5px]">WhatsApp</span>
                 </a>
             @else
-                <span class="rounded-xl bg-zinc-100 px-3 py-2 text-center text-xs font-bold text-zinc-400">WhatsApp</span>
+                <span title="WhatsApp tidak tersedia" aria-label="WhatsApp tidak tersedia" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-zinc-100 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-zinc-400">
+                    <x-lucide-message-circle class="h-5 w-5 shrink-0" />
+                    <span class="block max-w-full text-[9.5px]">WhatsApp</span>
+                </span>
             @endif
             @if ($mapsUrl)
-                <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="rounded-xl bg-amber-400 px-3 py-2 text-center text-xs font-bold text-zinc-950 shadow-sm transition hover:bg-amber-300">
-                    Peta Rumah
+                <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" title="Peta Rumah" aria-label="Buka lokasi rumah di Google Maps" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-orange-500 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-orange-600">
+                    <x-lucide-map-pinned class="h-5 w-5 shrink-0" />
+                    <span class="block max-w-full">Peta</span>
                 </a>
             @endif
             @if ($directionUrl)
-                <a href="{{ $directionUrl }}" target="_blank" rel="noopener" class="rounded-xl bg-cyan-600 px-3 py-2 text-center text-xs font-bold text-white shadow-sm transition hover:bg-cyan-700">
-                    Arah Ke POLIMAS
+                <a href="{{ $directionUrl }}" target="_blank" rel="noopener" title="Arah Ke POLIMAS" aria-label="Buka arah dari rumah ke POLIMAS" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-blue-600 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-blue-700">
+                    <x-lucide-route class="h-5 w-5 shrink-0" />
+                    <span class="block max-w-full">Arah</span>
                 </a>
             @endif
         </div>

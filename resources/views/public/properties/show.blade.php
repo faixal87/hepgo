@@ -11,8 +11,8 @@
         $directionUrl = $property->direction_url;
         $statusValue = $property->status?->value ?? $property->status;
         $statusClass = $statusValue === 'available'
-            ? 'bg-emerald-100 text-emerald-800 ring-emerald-200'
-            : 'bg-rose-100 text-rose-800 ring-rose-200';
+            ? 'bg-orange-100 text-orange-800 ring-orange-200'
+            : 'bg-blue-100 text-blue-800 ring-blue-200';
         $facilityNames = $property->facilities->pluck('name')
             ->merge(collect([
                 'Parking' => $property->has_parking,
@@ -39,8 +39,8 @@
                 @if ($mainImage)
                     <img :src="image" alt="Gambar {{ $property->title }}" class="aspect-[4/3] w-full object-cover">
                 @else
-                    <div class="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-emerald-100 via-white to-amber-100 px-6 text-center">
-                        <span class="rounded-full bg-white/80 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-800">Rumah Sewa</span>
+                    <div class="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-orange-100 via-white to-blue-100 px-6 text-center">
+                        <span class="rounded-full bg-white/80 px-3 py-1 text-xs font-bold uppercase tracking-wide text-orange-800">Rumah Sewa</span>
                         <p class="text-base font-bold text-zinc-600">Gambar belum dimuat naik</p>
                     </div>
                 @endif
@@ -48,7 +48,7 @@
                 @if ($property->images->isNotEmpty())
                     <div class="grid grid-cols-4 gap-2 p-3 sm:grid-cols-6">
                         @foreach ($property->images as $image)
-                            <button type="button" x-on:click="image = @js($image->url())" class="overflow-hidden rounded-xl ring-2 ring-transparent transition hover:ring-emerald-500">
+                            <button type="button" x-on:click="image = @js($image->url())" class="overflow-hidden rounded-xl ring-2 ring-transparent transition hover:ring-orange-500">
                                 <img src="{{ $image->url() }}" alt="{{ $image->caption ?: 'Gambar rumah sewa' }}" class="aspect-square w-full object-cover">
                             </button>
                         @endforeach
@@ -70,7 +70,7 @@
                 </div>
 
                 <h1 class="mt-4 text-3xl font-extrabold leading-tight text-zinc-950">{{ $property->title }}</h1>
-                <p class="mt-4 text-3xl font-extrabold text-emerald-700">
+                <p class="mt-4 text-3xl font-extrabold text-orange-700">
                     RM{{ number_format((float) $property->price, 0) }}
                     <span class="text-sm font-bold text-zinc-500">sebulan</span>
                 </p>
@@ -96,11 +96,19 @@
                             {{ filled($property->deposit) ? 'RM'.number_format((float) $property->deposit, 0) : 'Tidak dinyatakan' }}
                         </p>
                     </div>
+                    <div class="rounded-2xl bg-orange-50 p-4">
+                        <p class="font-bold text-orange-700">Tarikh Disiarkan</p>
+                        <p class="mt-1 font-extrabold text-zinc-950">{{ $property->created_at?->format('d/m/Y') ?? '-' }}</p>
+                    </div>
+                    <div class="rounded-2xl bg-blue-50 p-4">
+                        <p class="font-bold text-blue-700">Terakhir Dikemaskini</p>
+                        <p class="mt-1 font-extrabold text-zinc-950">{{ $property->updated_at?->format('d/m/Y') ?? '-' }}</p>
+                    </div>
                 </div>
 
-                <div class="mt-5 rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-100">
-                    <p class="text-sm font-bold text-amber-900">Alamat</p>
-                    <p class="mt-2 text-sm leading-6 text-amber-950">{{ $property->address }}</p>
+                <div class="mt-5 rounded-2xl bg-orange-50 p-4 ring-1 ring-orange-100">
+                    <p class="text-sm font-bold text-orange-900">Alamat</p>
+                    <p class="mt-2 text-sm leading-6 text-orange-950">{{ $property->address }}</p>
                 </div>
             </div>
 
@@ -124,7 +132,7 @@
                 @if ($facilityNames->isNotEmpty())
                     <div class="mt-4 flex flex-wrap gap-2">
                         @foreach ($facilityNames as $facility)
-                            <span class="rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-800 ring-1 ring-emerald-100">{{ $facility }}</span>
+                            <span class="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-800 ring-1 ring-blue-100">{{ $facility }}</span>
                         @endforeach
                     </div>
                 @endif
@@ -138,27 +146,31 @@
                     <p><span class="font-bold text-zinc-950">No. WhatsApp:</span> {{ $property->owner?->whatsapp_number ?? 'Tidak dinyatakan' }}</p>
                 </div>
 
-                <div class="mt-5 grid gap-3 sm:grid-cols-3">
+                <div class="mt-5 grid gap-3 sm:grid-cols-2">
                     @if ($whatsappUrl)
-                        <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="rounded-2xl bg-emerald-600 px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-emerald-700">
-                            WhatsApp
+                        <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-emerald-700">
+                            <x-lucide-message-circle class="h-5 w-5 shrink-0" />
+                            <span>WhatsApp</span>
                         </a>
                     @endif
 
                     @if ($mapsUrl)
-                        <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="rounded-2xl bg-amber-400 px-4 py-3 text-center text-sm font-extrabold text-zinc-950 shadow-sm transition hover:bg-amber-300">
-                            Peta Rumah
+                        <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-orange-500 px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-orange-600">
+                            <x-lucide-map-pinned class="h-5 w-5 shrink-0" />
+                            <span>Peta Rumah</span>
                         </a>
                     @endif
 
                     @if ($directionUrl)
-                        <a href="{{ $directionUrl }}" target="_blank" rel="noopener" class="rounded-2xl bg-cyan-600 px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-cyan-700">
-                            Arah Ke POLIMAS
+                        <a href="{{ $directionUrl }}" target="_blank" rel="noopener" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-blue-700">
+                            <x-lucide-route class="h-5 w-5 shrink-0" />
+                            <span>Arah Ke POLIMAS</span>
                         </a>
                     @endif
 
-                    <a href="{{ route('reports.create.property', $property) }}" class="rounded-2xl bg-zinc-100 px-4 py-3 text-center text-sm font-extrabold text-zinc-700 ring-1 ring-zinc-200 transition hover:bg-zinc-200">
-                        Laporkan Maklumat
+                    <a href="{{ route('reports.create.property', $property) }}" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-zinc-100 px-4 py-3 text-center text-sm font-extrabold text-zinc-700 ring-1 ring-zinc-200 transition hover:bg-zinc-200">
+                        <x-lucide-flag class="h-5 w-5 shrink-0" />
+                        <span>Laporkan Maklumat</span>
                     </a>
                 </div>
                 @if (filled($property->distance_km))
@@ -166,7 +178,7 @@
                 @endif
             </div>
 
-            <div class="rounded-3xl bg-emerald-50 p-5 text-sm font-semibold leading-7 text-emerald-950 ring-1 ring-emerald-100">
+            <div class="rounded-3xl bg-orange-50 p-5 text-sm font-semibold leading-7 text-orange-950 ring-1 ring-orange-100">
                 Nota: HEP menyediakan maklumat ini sebagai rujukan. Sila semak sendiri keadaan rumah dan persetujuan sewaan sebelum membuat sebarang bayaran.
             </div>
         </div>
