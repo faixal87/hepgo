@@ -276,7 +276,6 @@ class PropertyResource extends Resource
                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                     ->maxSize(5120)
                                     ->maxFiles(12)
-                                    ->reorderable()
                                     ->live()
                                     ->helperText('Boleh pilih lebih daripada satu gambar. Format dibenarkan: JPG, PNG atau WebP. Saiz maksimum 5MB setiap gambar.')
                                     ->afterStateUpdated(fn (mixed $state, Set $set, Get $get) => self::syncNewImageEntries($state, $set, $get))

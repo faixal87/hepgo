@@ -3,12 +3,11 @@
 namespace App\Services;
 
 use App\Enums\VerificationStatus;
-use App\Models\Facility;
 use App\Models\Owner;
 use App\Models\Property;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Throwable;
 
 class PropertyWorkflowService
 {
@@ -116,6 +115,10 @@ class PropertyWorkflowService
                 continue;
             }
 
+            if (! $this->temporaryUploadExists($file)) {
+                continue;
+            }
+
             $uploadKey = (string) $index;
             $entry = $metadataByKey->get($uploadKey, []);
             $isThumbnail = (bool) ($entry['is_thumbnail'] ?? false);
@@ -185,6 +188,15 @@ class PropertyWorkflowService
         }
 
         return preg_replace('/[^\d+]/', '', trim($value)) ?: null;
+    }
+
+    private function temporaryUploadExists(TemporaryUploadedFile $file): bool
+    {
+        try {
+            return $file->exists();
+        } catch (Throwable) {
+            return false;
+        }
     }
 
     private function cleanText(?string $value): ?string

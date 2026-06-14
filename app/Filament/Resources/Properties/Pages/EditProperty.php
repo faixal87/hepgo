@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Properties\Pages;
 
+use App\Filament\Resources\Properties\Pages\Concerns\HandlesPropertyUploadValidation;
 use App\Filament\Resources\Properties\PropertyResource;
 use App\Services\PropertyImageService;
 use App\Services\PropertyWorkflowService;
@@ -9,15 +10,18 @@ use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class EditProperty extends EditRecord
 {
+    use HandlesPropertyUploadValidation;
+
     protected static string $resource = PropertyResource::class;
 
     private array $facilityIds = [];
 
     /**
-     * @var array<int, \Livewire\Features\SupportFileUploads\TemporaryUploadedFile|string>
+     * @var array<int, TemporaryUploadedFile|string>
      */
     private array $uploadedImages = [];
 

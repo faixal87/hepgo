@@ -4,15 +4,19 @@ namespace App\Filament\Resources\Properties\Pages;
 
 use App\Enums\PropertyAvailabilityStatus;
 use App\Enums\VerificationStatus;
+use App\Filament\Resources\Properties\Pages\Concerns\HandlesPropertyUploadValidation;
 use App\Filament\Resources\Properties\PropertyResource;
 use App\Services\PropertyImageService;
-use App\Services\SystemNotificationService;
 use App\Services\PropertyWorkflowService;
+use App\Services\SystemNotificationService;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\CreateRecord;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class CreateProperty extends CreateRecord
 {
+    use HandlesPropertyUploadValidation;
+
     protected static string $resource = PropertyResource::class;
 
     protected static bool $canCreateAnother = false;
@@ -20,7 +24,7 @@ class CreateProperty extends CreateRecord
     private array $facilityIds = [];
 
     /**
-     * @var array<int, \Livewire\Features\SupportFileUploads\TemporaryUploadedFile|string>
+     * @var array<int, TemporaryUploadedFile|string>
      */
     private array $uploadedImages = [];
 
