@@ -74,7 +74,7 @@
 
                 <div class="overflow-hidden rounded-3xl bg-zinc-950 shadow-sm">
                     @if ($latestProperties->first()?->thumbnailUrl())
-                        <img src="{{ $latestProperties->first()->thumbnailUrl() }}" alt="Gambar rumah sewa terkini" class="h-64 w-full object-cover opacity-90">
+                        <img src="{{ $latestProperties->first()->thumbnailUrl() }}" alt="Gambar rumah sewa terkini" loading="lazy" width="900" height="360" class="h-64 w-full object-cover opacity-90">
                     @else
                     <div class="flex h-64 flex-col justify-end bg-gradient-to-br from-orange-600 via-blue-900 to-white p-6">
                         <p class="max-w-xs text-2xl font-extrabold leading-tight text-white">Maklumat rumah sewa yang mudah disemak dari telefon.</p>

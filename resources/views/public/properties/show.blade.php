@@ -5,7 +5,7 @@
 
 @section('content')
     @php
-        $mainImage = $property->thumbnailUrl();
+        $mainImage = $property->mediumImageUrl();
         $whatsappUrl = $property->whatsappUrl();
         $mapsUrl = filled($property->maps_url) ? $property->maps_url : null;
         $directionUrl = $property->direction_url;
@@ -37,7 +37,7 @@
                 x-data="{ image: @js($mainImage) }"
             >
                 @if ($mainImage)
-                    <img :src="image" alt="Gambar {{ $property->title }}" class="aspect-[4/3] w-full object-cover">
+                    <img :src="image" alt="Gambar {{ $property->title }}" loading="lazy" width="900" height="675" class="aspect-[4/3] w-full object-cover">
                 @else
                     <div class="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-orange-100 via-white to-blue-100 px-6 text-center">
                         <span class="rounded-full bg-white/80 px-3 py-1 text-xs font-bold uppercase tracking-wide text-orange-800">Rumah Sewa</span>
@@ -48,8 +48,8 @@
                 @if ($property->images->isNotEmpty())
                     <div class="grid grid-cols-4 gap-2 p-3 sm:grid-cols-6">
                         @foreach ($property->images as $image)
-                            <button type="button" x-on:click="image = @js($image->url())" class="overflow-hidden rounded-xl ring-2 ring-transparent transition hover:ring-orange-500">
-                                <img src="{{ $image->url() }}" alt="{{ $image->caption ?: 'Gambar rumah sewa' }}" class="aspect-square w-full object-cover">
+                            <button type="button" x-on:click="image = @js($image->largeUrl())" class="overflow-hidden rounded-xl ring-2 ring-transparent transition hover:ring-orange-500">
+                                <img src="{{ $image->thumbnailUrl() }}" alt="{{ $image->caption ?: 'Gambar rumah sewa' }}" loading="lazy" width="160" height="160" class="aspect-square w-full object-cover">
                             </button>
                         @endforeach
                     </div>

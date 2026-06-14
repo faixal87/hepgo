@@ -16,7 +16,9 @@ class PropertyImageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'url' => $this->url(),
+            'url' => $this->mediumUrl(),
+            'thumbnail_url' => $this->thumbnailUrl(),
+            'large_url' => $this->largeUrl(),
             'kapsyen' => $this->caption,
             'gambar_utama' => (bool) $this->is_thumbnail,
             'susunan' => $this->sort_order,

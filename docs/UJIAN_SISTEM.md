@@ -59,6 +59,24 @@ Dokumen ini ialah senarai semak ringkas untuk demo, ujian penerimaan pengguna da
 - [ ] 50. Confirm public API tidak expose owner IC number
 - [ ] 51. Confirm public API tidak expose admin remarks
 
+## Senarai Semak Optimasi Gambar Rumah
+
+- [ ] 52. Upload gambar JPG.
+- [ ] 53. Upload gambar PNG.
+- [ ] 54. Upload gambar WebP.
+- [ ] 55. Pastikan sistem generate fail thumbnail WebP.
+- [ ] 56. Pastikan sistem generate fail medium WebP.
+- [ ] 57. Pastikan sistem generate fail large WebP.
+- [ ] 58. Pastikan senarai rumah load thumbnail.
+- [ ] 59. Pastikan detail rumah load medium/large.
+- [ ] 60. Pastikan gambar tidak pecah dan tidak terlalu blur.
+- [ ] 61. Pastikan fail lebih 5MB ditolak.
+- [ ] 62. Pastikan SVG ditolak.
+- [ ] 63. Pastikan gambar boleh dipadam.
+- [ ] 64. Pastikan semua versi gambar dipadam apabila rekod gambar dipadam.
+- [ ] 65. Pastikan hanya satu gambar utama untuk setiap rumah.
+- [ ] 66. Pastikan gambar lama masih boleh dipaparkan melalui fallback.
+
 ## Arahan Ujian Ringkas
 
 Jalankan migrasi dan seed data demo:

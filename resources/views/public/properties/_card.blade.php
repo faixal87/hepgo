@@ -6,7 +6,7 @@
             ['sort_order', 'asc'],
             ['id', 'asc'],
         ])
-        ->map(fn ($image) => $image->url())
+        ->map(fn ($image) => $image->thumbnailUrl())
         ->filter()
         ->values();
 
@@ -50,6 +50,9 @@
                     <img
                         :src="image"
                         alt="Gambar {{ $property->title }}"
+                        loading="lazy"
+                        width="400"
+                        height="300"
                         class="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
                         x-bind:class="active === index ? 'opacity-100' : 'opacity-0'"
                     >
@@ -61,7 +64,7 @@
                     @endforeach
                 </div>
             @else
-                <img src="{{ $imageUrls->first() }}" alt="Gambar {{ $property->title }}" class="h-full w-full object-cover">
+                <img src="{{ $imageUrls->first() }}" alt="Gambar {{ $property->title }}" loading="lazy" width="400" height="300" class="h-full w-full object-cover">
             @endif
         @else
             <div class="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-orange-100 via-white to-blue-100 px-6 text-center">

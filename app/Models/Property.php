@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 #[Fillable([
     'owner_id',
@@ -144,16 +142,38 @@ class Property extends Model
 
     public function thumbnailUrl(): ?string
     {
-        $path = $this->thumbnailImage?->image_path
-            ?? $this->images->sortBy('sort_order')->first()?->image_path;
+        $image = $this->thumbnailImage
+            ?? $this->images->sortBy('sort_order')->first();
 
-        if (! $path) {
+        if (! $image) {
             return null;
         }
 
-        return Str::startsWith($path, ['http://', 'https://'])
-            ? $path
-            : Storage::disk('public')->url($path);
+        return $image->thumbnailUrl();
+    }
+
+    public function mediumImageUrl(): ?string
+    {
+        $image = $this->thumbnailImage
+            ?? $this->images->sortBy('sort_order')->first();
+
+        if (! $image) {
+            return null;
+        }
+
+        return $image->mediumUrl();
+    }
+
+    public function largeImageUrl(): ?string
+    {
+        $image = $this->thumbnailImage
+            ?? $this->images->sortBy('sort_order')->first();
+
+        if (! $image) {
+            return null;
+        }
+
+        return $image->largeUrl();
     }
 
     public function whatsappUrl(): ?string

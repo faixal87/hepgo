@@ -121,6 +121,23 @@ PATCH /api/v1/admin/reports/{report}/resolve
 
 Aplikasi Android boleh menggunakan endpoint `/api/v1` dengan respons JSON standard. Endpoint awam boleh digunakan tanpa log masuk untuk paparan senarai rumah, maklumat rumah, kawasan, kategori, kemudahan dan penghantaran aduan. Fungsi yang memerlukan pengesahan seperti profil, logout dan operasi admin perlu menggunakan token Sanctum daripada endpoint `POST /api/v1/login`.
 
+## 13. Optimasi Gambar Rumah
+
+Gambar rumah yang dimuat naik melalui panel admin akan dioptimumkan secara automatik.
+
+- Sistem menerima gambar JPG, PNG dan WebP sahaja.
+- Setiap gambar akan ditukar kepada format WebP.
+- Sistem menjana 3 saiz gambar: `thumbnail`, `medium` dan `large`.
+- Senarai rumah sewa menggunakan gambar `thumbnail` supaya halaman lebih ringan dan cepat dimuatkan.
+- Halaman maklumat rumah menggunakan gambar `medium` untuk paparan utama dan `large` untuk paparan galeri.
+- Gambar asal bersaiz besar tidak digunakan untuk paparan public.
+- Gambar lama yang belum mempunyai versi WebP masih boleh dipaparkan melalui fallback `image_path`.
+- Pastikan storage link telah dijalankan:
+
+```bash
+php artisan storage:link
+```
+
 ## Integrasi Aplikasi Android / Flutter
 
 Aplikasi Android atau Flutter perlu menggunakan API base URL `/api/v1`.

@@ -226,7 +226,7 @@ class PropertyResource extends Resource
                         ->relationship('images')
                         ->schema([
                             FileUpload::make('image_path')
-                                ->label('Gambar Rumah')
+                                ->label('Muat Naik Gambar')
                                 ->image()
                                 ->imageEditor()
                                 ->imagePreviewHeight('180')
@@ -237,6 +237,7 @@ class PropertyResource extends Resource
                                 ->visibility('public')
                                 ->openable()
                                 ->downloadable()
+                                ->helperText('Format dibenarkan: JPG, PNG atau WebP. Saiz maksimum 5MB setiap gambar.')
                                 ->required(),
 
                             TextInput::make('caption')
@@ -256,6 +257,7 @@ class PropertyResource extends Resource
                         ->collapsible()
                         ->reorderable()
                         ->addActionLabel('Tambah Gambar')
+                        ->deleteAction(fn ($action) => $action->label('Padam Gambar'))
                         ->itemLabel(fn (array $state): ?string => $state['caption'] ?? 'Gambar Rumah'),
                 ]),
         ]);
