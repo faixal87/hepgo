@@ -40,14 +40,19 @@ class PropertyImageService
     {
         $this->validateUploadedFile($file);
 
+        $originalName = $file->getClientOriginalName();
+        $mimeType = $file->getMimeType();
+        $fileSize = $file->getSize();
+        $imagePath = $file->store("properties/{$property->id}/original", 'public');
+
         $image = $property->images()->create([
-            'image_path' => $file->store("properties/{$property->id}/original", 'public'),
+            'image_path' => $imagePath,
             'caption' => $options['caption'] ?? null,
             'is_thumbnail' => (bool) ($options['is_thumbnail'] ?? false),
             'sort_order' => (int) ($options['sort_order'] ?? 0),
-            'original_name' => $file->getClientOriginalName(),
-            'mime_type' => $file->getMimeType(),
-            'file_size' => $file->getSize(),
+            'original_name' => $originalName,
+            'mime_type' => $mimeType,
+            'file_size' => $fileSize,
         ]);
 
         return $this->generateWebpVersionsForImage($image);
