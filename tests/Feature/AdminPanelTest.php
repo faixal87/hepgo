@@ -44,7 +44,7 @@ class AdminPanelTest extends TestCase
             ->assertSee('Jumlah Rumah Sewa')
             ->assertSee('Rumah Masih Kosong')
             ->assertSee('Aduan Baharu')
-            ->assertSee('Ke Portal')
+            ->assertSee('Portal Utama')
             ->assertSee($user->name)
             ->assertSee('Tetapan Portal');
     }

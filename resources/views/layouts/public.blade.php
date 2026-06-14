@@ -48,9 +48,11 @@
         </main>
 
         <footer class="border-t border-zinc-200 bg-white">
-            <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-                <p>&copy; {{ date('Y') }} Portal Rumah Sewa HEP. Semua hak cipta terpelihara.</p>
-                <p>Maklumat rumah sewa disediakan sebagai rujukan pelajar dan ibu bapa.</p>
+            <div class="mx-auto max-w-7xl px-4 py-8 text-center text-sm text-zinc-500 sm:px-6 lg:px-8">
+                <div class="inline-flex flex-wrap items-center justify-center gap-3">
+                    <img src="{{ asset('images/logo_jtmk.png') }}" alt="Logo JTMK" class="h-8 w-auto object-contain">
+                    <p>&copy; {{ date('Y') }} Portal Rumah Sewa HEP. Semua hak cipta terpelihara JTMK POLIMAS</p>
+                </div>
             </div>
         </footer>
     </div>

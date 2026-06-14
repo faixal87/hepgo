@@ -27,6 +27,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rules\Unique;
 use UnitEnum;
 
 class CategoryResource extends Resource
@@ -55,7 +56,10 @@ class CategoryResource extends Resource
                     TextInput::make('name')
                         ->label('Nama Kategori')
                         ->required()
-                        ->unique(ignoreRecord: true)
+                        ->unique(
+                            ignoreRecord: true,
+                            modifyRuleUsing: fn (Unique $rule): Unique => $rule->whereNull('deleted_at'),
+                        )
                         ->maxLength(255),
 
                     Select::make('status')

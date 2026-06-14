@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\UserStatus;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -20,7 +21,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 #[Fillable(['name', 'email', 'password', 'phone', 'profile_photo_path', 'ui_theme', 'status', 'last_login_at'])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, HasRoles, Notifiable, SoftDeletes;
@@ -39,6 +40,11 @@ class User extends Authenticatable implements FilamentUser
         }
 
         return Storage::disk('public')->url($this->profile_photo_path);
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return $this->profilePhotoUrl();
     }
 
     public function uiThemeKey(): string

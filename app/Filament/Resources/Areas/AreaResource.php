@@ -27,6 +27,7 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rules\Unique;
 use UnitEnum;
 
 class AreaResource extends Resource
@@ -55,7 +56,10 @@ class AreaResource extends Resource
                     TextInput::make('name')
                         ->label('Nama Kawasan')
                         ->required()
-                        ->unique(ignoreRecord: true)
+                        ->unique(
+                            ignoreRecord: true,
+                            modifyRuleUsing: fn (Unique $rule): Unique => $rule->whereNull('deleted_at'),
+                        )
                         ->maxLength(255),
 
                     TextInput::make('distance_from_campus')

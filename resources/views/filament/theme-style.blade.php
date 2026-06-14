@@ -62,32 +62,32 @@
     }
 
     .hep-topbar-portal {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
+        display: inline-grid;
+        height: 2.8rem;
+        width: 2.8rem;
+        place-items: center;
         border-radius: 9999px;
-        border: 1px solid rgb(226 232 240);
-        background: rgb(255 255 255 / 0.96);
-        padding: 0.55rem 0.9rem;
-        font-size: 0.82rem;
-        font-weight: 800;
-        color: rgb(15 23 42 / 0.92);
-        box-shadow: 0 8px 24px rgb(15 23 42 / 0.06);
+        border: 1px solid color-mix(in srgb, var(--hep-accent) 22%, white);
+        background: linear-gradient(135deg, var(--hep-accent-soft), rgb(255 255 255 / 0.98));
+        color: var(--hep-accent);
+        box-shadow: 0 10px 24px color-mix(in srgb, var(--hep-accent) 14%, transparent);
         transition: all 160ms ease;
     }
 
     .hep-topbar-portal:hover {
-        border-color: color-mix(in srgb, var(--hep-accent) 28%, white);
-        color: var(--hep-accent);
+        border-color: var(--hep-accent);
+        background: linear-gradient(135deg, var(--hep-accent), color-mix(in srgb, var(--hep-accent) 82%, #f97316));
+        color: white;
+        transform: translateY(-1px);
     }
 
     .hep-user-summary {
         display: inline-flex;
         align-items: center;
-        gap: 0.7rem;
         border-radius: 9999px;
         background: rgb(248 250 252 / 0.96);
-        padding: 0.42rem 0.5rem 0.42rem 0.42rem;
+        padding: 0.42rem 0.8rem;
+        max-width: 15rem;
     }
 
     .hep-user-summary-text {
@@ -113,24 +113,15 @@
         white-space: nowrap;
     }
 
-    .hep-user-summary-avatar {
-        display: grid;
-        height: 2.5rem;
-        width: 2.5rem;
-        place-items: center;
-        overflow: hidden;
-        border-radius: 9999px;
-        background: linear-gradient(135deg, var(--hep-sidebar), var(--hep-sidebar-secondary));
-        color: white;
-        font-size: 0.82rem;
-        font-weight: 900;
-        flex-shrink: 0;
+    .fi-topbar .fi-user-menu-trigger {
+        padding: 0.15rem;
     }
 
-    .hep-user-summary-avatar img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
+    .fi-topbar .fi-user-avatar {
+        height: 3rem;
+        width: 3rem;
+        border: 2px solid rgb(255 255 255 / 0.96);
+        box-shadow: 0 10px 24px rgb(15 23 42 / 0.12);
     }
 
     @media (max-width: 768px) {
@@ -139,9 +130,13 @@
             margin-inline-end: 0.25rem;
         }
 
-        .hep-topbar-portal span,
-        .hep-user-summary-text {
+        .hep-user-summary {
             display: none;
+        }
+
+        .fi-topbar .fi-user-avatar {
+            height: 2.75rem;
+            width: 2.75rem;
         }
     }
 </style>
