@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
+use App\Filament\Widgets\AvailablePropertiesTableWidget;
 use App\Filament\Widgets\PortalOverviewWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -34,6 +35,9 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogo(asset('images/logo_polimas.png'))
             ->brandLogoHeight('2.75rem')
             ->login()
+            ->globalSearch(false)
+            ->databaseNotifications(isLazy: false)
+            ->databaseNotificationsPolling('15s')
             ->colors([
                 'primary' => Color::Sky,
             ])
@@ -48,6 +52,14 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::STYLES_AFTER,
                 fn (): View => view('filament.theme-style')
             )
+            ->renderHook(
+                PanelsRenderHook::GLOBAL_SEARCH_AFTER,
+                fn (): View => view('filament.user-summary')
+            )
+            ->renderHook(
+                PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+                fn (): View => view('filament.auth-portal-link')
+            )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -56,6 +68,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
                 PortalOverviewWidget::class,
+                AvailablePropertiesTableWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

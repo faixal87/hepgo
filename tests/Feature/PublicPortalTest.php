@@ -10,6 +10,7 @@ use App\Models\Area;
 use App\Models\Category;
 use App\Models\Facility;
 use App\Models\Owner;
+use App\Models\PortalSetting;
 use App\Models\Property;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -34,6 +35,23 @@ class PublicPortalTest extends TestCase
             ->assertSee('Cari Rumah Sewa Luar Kampus Dengan Mudah')
             ->assertSee('Jumlah Rumah Disahkan')
             ->assertSee('Rumah Masih Kosong');
+    }
+
+    public function test_homepage_uses_configured_portal_hero_image_when_available(): void
+    {
+        PortalSetting::current()->update([
+            'hero_image_path' => 'portal-settings/contoh-peta.png',
+            'hero_image_title' => 'Peta taman pilihan admin',
+            'hero_image_caption' => 'Klik untuk lihat imej penuh.',
+        ]);
+
+        $response = $this->get('/');
+
+        $response
+            ->assertOk()
+            ->assertSee('/storage/portal-settings/contoh-peta.png')
+            ->assertSee('Peta taman pilihan admin')
+            ->assertSee('Klik untuk lihat imej penuh.');
     }
 
     public function test_listing_page_shows_only_publicly_visible_properties(): void

@@ -12,12 +12,20 @@ use App\Models\Owner;
 use App\Models\Property;
 use App\Models\User;
 use App\Services\PropertyStatusService;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PropertyStatusServiceTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(RolePermissionSeeder::class);
+    }
 
     public function test_availability_update_creates_status_log(): void
     {
@@ -74,7 +82,35 @@ class PropertyStatusServiceTest extends TestCase
         ]);
     }
 
-    private function createProperty(): Property
+    public function test_department_staff_receives_notification_when_listing_is_verified(): void
+    {
+        $staffJabatan = User::factory()->create([
+            'name' => 'Staf Jabatan Ujian',
+        ]);
+        $staffJabatan->assignRole('staff_jabatan');
+
+        $hepAdmin = User::factory()->create();
+        $hepAdmin->assignRole('hep_admin');
+
+        $property = $this->createProperty([
+            'created_by' => $staffJabatan->id,
+        ]);
+
+        $this->actingAs($hepAdmin);
+
+        app(PropertyStatusService::class)->updateVerification(
+            $property,
+            VerificationStatus::VERIFIED->value,
+            'Maklumat rumah telah lengkap disahkan.',
+        );
+
+        $staffJabatan->refresh();
+
+        $this->assertCount(1, $staffJabatan->notifications);
+        $this->assertSame('Listing anda telah disahkan', $staffJabatan->notifications->first()->data['title']);
+    }
+
+    private function createProperty(array $overrides = []): Property
     {
         $owner = Owner::create([
             'name' => 'Pemilik Ujian',
@@ -93,7 +129,7 @@ class PropertyStatusServiceTest extends TestCase
             'status' => RecordStatus::ACTIVE,
         ]);
 
-        return Property::create([
+        return Property::create(array_merge([
             'owner_id' => $owner->id,
             'title' => 'Rumah Ujian',
             'description' => 'Penerangan rumah ujian.',
@@ -104,6 +140,6 @@ class PropertyStatusServiceTest extends TestCase
             'status' => PropertyAvailabilityStatus::PENDING,
             'verification_status' => VerificationStatus::PENDING,
             'gender_preference' => GenderPreference::ANY,
-        ]);
+        ], $overrides));
     }
 }

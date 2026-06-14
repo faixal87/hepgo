@@ -72,21 +72,29 @@
                     </div>
                 </div>
 
-                <div class="overflow-hidden rounded-3xl bg-zinc-950 shadow-sm">
-                    @if ($latestProperties->first()?->thumbnailUrl())
-                        <img src="{{ $latestProperties->first()->thumbnailUrl() }}" alt="Gambar rumah sewa terkini" loading="lazy" width="900" height="360" class="h-64 w-full object-cover opacity-90">
-                    @else
-                    <div class="flex h-64 flex-col justify-end bg-gradient-to-br from-orange-600 via-blue-900 to-white p-6">
-                        <p class="max-w-xs text-2xl font-extrabold leading-tight text-white">Maklumat rumah sewa yang mudah disemak dari telefon.</p>
-                    </div>
-                    @endif
-                    <div class="grid grid-cols-2 gap-px bg-white/10 p-1">
-                        @foreach ($areas->take(4) as $area)
-                            <a href="{{ route('properties.index', ['area' => $area->id]) }}" class="rounded-2xl bg-white/10 px-4 py-3 text-sm font-bold text-white backdrop-blur transition hover:bg-white/20">
-                                {{ $area->name }}
-                            </a>
-                        @endforeach
-                    </div>
+                <div class="overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-zinc-200">
+                    <a
+                        href="{{ $heroImageUrl }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="group block"
+                        title="Buka gambar penuh"
+                    >
+                        <div class="relative">
+                            <img
+                                src="{{ $heroImageUrl }}"
+                                alt="{{ $heroImageTitle }}"
+                                loading="lazy"
+                                width="1536"
+                                height="1024"
+                                class="h-72 w-full object-cover object-center transition duration-300 group-hover:scale-[1.02] md:h-[22rem]"
+                            >
+                            <div class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-zinc-950/75 via-zinc-950/15 to-transparent p-5">
+                                <p class="text-lg font-extrabold text-white">{{ $heroImageTitle }}</p>
+                                <p class="mt-1 text-sm font-medium text-white/85">{{ $heroImageCaption }}</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

@@ -5,7 +5,6 @@ namespace App\Filament\Widgets;
 use App\Enums\PropertyAvailabilityStatus;
 use App\Enums\ReportStatus;
 use App\Enums\VerificationStatus;
-use App\Models\Owner;
 use App\Models\Property;
 use App\Models\PropertyReport;
 use Filament\Support\Icons\Heroicon;
@@ -27,10 +26,7 @@ class PortalOverviewWidget extends StatsOverviewWidget
     {
         $pendingVerification = Property::query()
             ->where('verification_status', VerificationStatus::PENDING->value)
-            ->count()
-            + Owner::query()
-                ->where('verification_status', VerificationStatus::PENDING->value)
-                ->count();
+            ->count();
 
         return [
             Stat::make('Jumlah Rumah Sewa', Property::query()->count())
@@ -38,7 +34,13 @@ class PortalOverviewWidget extends StatsOverviewWidget
                 ->descriptionIcon(Heroicon::OutlinedHomeModern)
                 ->color('info'),
 
-            Stat::make('Rumah Masih Kosong', Property::query()->where('status', PropertyAvailabilityStatus::AVAILABLE->value)->count())
+            Stat::make(
+                'Rumah Masih Kosong',
+                Property::query()
+                    ->where('status', PropertyAvailabilityStatus::AVAILABLE->value)
+                    ->where('verification_status', VerificationStatus::VERIFIED->value)
+                    ->count()
+            )
                 ->description('Boleh dipaparkan kepada pelajar')
                 ->descriptionIcon(Heroicon::OutlinedCheckCircle)
                 ->color('success'),
@@ -49,14 +51,9 @@ class PortalOverviewWidget extends StatsOverviewWidget
                 ->color('danger'),
 
             Stat::make('Menunggu Pengesahan', $pendingVerification)
-                ->description('Pemilik dan rumah perlu semakan HEP')
+                ->description('Listing yang perlu semakan HEP')
                 ->descriptionIcon(Heroicon::OutlinedClock)
                 ->color($pendingVerification > 0 ? 'warning' : 'gray'),
-
-            Stat::make('Jumlah Pemilik Rumah', Owner::query()->count())
-                ->description('Pemilik berdaftar dalam sistem')
-                ->descriptionIcon(Heroicon::OutlinedUserGroup)
-                ->color('primary'),
 
             Stat::make('Aduan Baharu', PropertyReport::query()->where('status', ReportStatus::NEW->value)->count())
                 ->description('Aduan awam yang belum disemak')

@@ -7,6 +7,7 @@ use App\Enums\ReportType;
 use App\Http\Requests\StorePropertyReportRequest;
 use App\Models\Property;
 use App\Models\PropertyReport;
+use App\Services\SystemNotificationService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -41,9 +42,12 @@ class PropertyReportController extends Controller
         ]);
     }
 
-    public function store(StorePropertyReportRequest $request): RedirectResponse
+    public function store(
+        StorePropertyReportRequest $request,
+        SystemNotificationService $notificationService,
+    ): RedirectResponse
     {
-        PropertyReport::create([
+        $report = PropertyReport::create([
             ...$request->safe()->only([
                 'property_id',
                 'reporter_name',
@@ -54,6 +58,8 @@ class PropertyReportController extends Controller
             ]),
             'status' => ReportStatus::NEW,
         ]);
+
+        $notificationService->notifyNewReport($report);
 
         return redirect()
             ->route('reports.create')

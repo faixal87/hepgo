@@ -14,7 +14,7 @@ class ListProperties extends ListRecords
     {
         return [
             CreateAction::make()
-                ->label('Tambah Rumah Sewa'),
+                ->label('Create Listing'),
         ];
     }
 }

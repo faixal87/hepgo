@@ -9,6 +9,7 @@ use App\Enums\VerificationStatus;
 use App\Models\Area;
 use App\Models\Category;
 use App\Models\Owner;
+use App\Models\PortalSetting;
 use App\Models\Property;
 use App\Models\User;
 use Database\Seeders\RolePermissionSeeder;
@@ -31,6 +32,7 @@ class AdminPanelTest extends TestCase
     {
         $user = User::factory()->create();
         $user->assignRole('super_admin');
+        PortalSetting::current();
 
         $response = $this
             ->actingAs($user)
@@ -38,10 +40,13 @@ class AdminPanelTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertSee('Papan Pemuka HEP')
+            ->assertSee('Dashboard')
             ->assertSee('Jumlah Rumah Sewa')
             ->assertSee('Rumah Masih Kosong')
-            ->assertSee('Aduan Baharu');
+            ->assertSee('Aduan Baharu')
+            ->assertSee('Ke Portal')
+            ->assertSee($user->name)
+            ->assertSee('Tetapan Portal');
     }
 
     public function test_property_edit_page_shows_image_and_status_log_management(): void
@@ -58,8 +63,8 @@ class AdminPanelTest extends TestCase
             ->assertOk()
             ->assertSee('Gambar Rumah')
             ->assertSee('Log Status Rumah')
-            ->assertSee('Set Masih Kosong')
-            ->assertSee('Sahkan Rumah');
+            ->assertSee('Mark Available')
+            ->assertSee('Verify');
     }
 
     public function test_non_admin_user_cannot_access_admin_panel(): void
@@ -71,6 +76,14 @@ class AdminPanelTest extends TestCase
             ->actingAs($user)
             ->get('/admin')
             ->assertForbidden();
+    }
+
+    public function test_admin_login_page_has_link_back_to_public_portal(): void
+    {
+        $this
+            ->get('/admin/login')
+            ->assertOk()
+            ->assertSee('Kembali ke Portal');
     }
 
     public function test_admin_logout_redirects_to_public_homepage(): void
@@ -128,10 +141,10 @@ class AdminPanelTest extends TestCase
         $response
             ->assertOk()
             ->assertSee('Rumah Sewa Admin')
-            ->assertDontSee('Sahkan Rumah')
-            ->assertDontSee('Tolak Rumah')
-            ->assertDontSee('Set Masih Kosong')
-            ->assertDontSee('Set Telah Penuh');
+            ->assertDontSee('Verify')
+            ->assertDontSee('Reject')
+            ->assertDontSee('Mark Available')
+            ->assertDontSee('Mark Full');
 
         $verifiedProperty = $this->createProperty([
             'title' => 'Rumah Telah Disahkan',

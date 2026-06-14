@@ -65,11 +65,24 @@ class PropertyPolicy
 
     public function verify(User $user, Property $property): bool
     {
-        return $user->can('verify properties');
+        if (! $user->can('verify properties')) {
+            return false;
+        }
+
+        if ($user->hasAnyRole(['super_admin', 'hep_admin'])) {
+            return true;
+        }
+
+        if ($user->hasRole('hep_staff')) {
+            return ! $property->createdBy?->hasRole('hep_staff');
+        }
+
+        return false;
     }
 
     public function updateAvailability(User $user, Property $property): bool
     {
-        return $user->can('update property availability');
+        return $user->can('update property availability')
+            && $user->hasAnyRole(['super_admin', 'hep_admin', 'hep_staff']);
     }
 }

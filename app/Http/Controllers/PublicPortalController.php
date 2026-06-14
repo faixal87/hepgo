@@ -7,6 +7,7 @@ use App\Enums\RecordStatus;
 use App\Enums\VerificationStatus;
 use App\Models\Area;
 use App\Models\Category;
+use App\Models\PortalSetting;
 use App\Models\Property;
 use Illuminate\View\View;
 
@@ -14,6 +15,8 @@ class PublicPortalController extends Controller
 {
     public function home(): View
     {
+        $portalSetting = PortalSetting::current();
+
         $verifiedCount = Property::query()
             ->publiclyVisible()
             ->count();
@@ -50,6 +53,9 @@ class PublicPortalController extends Controller
             'areas' => $areas,
             'availableCount' => $availableCount,
             'categories' => $categories,
+            'heroImageCaption' => $portalSetting->heroImageCaption(),
+            'heroImageTitle' => $portalSetting->heroImageTitle(),
+            'heroImageUrl' => $portalSetting->heroImageUrl(),
             'latestProperties' => $latestProperties,
             'verifiedCount' => $verifiedCount,
         ]);

@@ -49,10 +49,33 @@
                                 <span>Panel Admin</span>
                             </a>
                         @endif
+                        <a href="{{ route('home') }}" class="hep-sidebar-link {{ request()->routeIs('home') ? 'hep-sidebar-link-active' : '' }}">
+                            <x-lucide-house class="h-5 w-5" />
+                            <span>Ke Portal</span>
+                        </a>
                     </nav>
 
-                    <div class="mt-auto rounded-2xl bg-white/10 p-4 text-xs font-semibold leading-5 text-white/78">
-                        Tema aktif: {{ auth()->user()?->uiTheme()['label'] ?? 'Biru POLIMAS + Oren' }}
+                    <div class="mt-auto space-y-4">
+                        <div class="rounded-2xl bg-white/12 p-4 text-white">
+                            <div class="flex items-center gap-3">
+                                @if (auth()->user()?->profilePhotoUrl())
+                                    <img src="{{ auth()->user()->profilePhotoUrl() }}" alt="Gambar profil {{ auth()->user()->name }}" class="h-11 w-11 rounded-full object-cover ring-2 ring-white/30">
+                                @else
+                                    <span class="grid h-11 w-11 place-items-center rounded-full bg-white/15 text-sm font-black text-white">
+                                        {{ \Illuminate\Support\Str::of(auth()->user()->name)->substr(0, 1)->upper() }}
+                                    </span>
+                                @endif
+
+                                <div class="min-w-0">
+                                    <div class="truncate text-sm font-black">{{ auth()->user()->name }}</div>
+                                    <div class="truncate text-xs font-medium text-white/70">{{ auth()->user()->email }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rounded-2xl bg-white/10 p-4 text-xs font-semibold leading-5 text-white/78">
+                            Tema aktif: {{ auth()->user()?->uiTheme()['label'] ?? 'Biru POLIMAS + Oren' }}
+                        </div>
                     </div>
                 </aside>
 

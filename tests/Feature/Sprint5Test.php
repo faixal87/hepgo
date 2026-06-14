@@ -44,6 +44,10 @@ class Sprint5Test extends TestCase
     public function test_public_report_form_can_submit_aduan(): void
     {
         $property = $this->createProperty();
+        $hepAdmin = User::factory()->create();
+        $hepAdmin->assignRole('hep_admin');
+        $hepStaff = User::factory()->create();
+        $hepStaff->assignRole('hep_staff');
 
         $response = $this->post('/aduan', [
             'property_id' => $property->id,
@@ -62,6 +66,16 @@ class Sprint5Test extends TestCase
             'property_id' => $property->id,
             'report_type' => ReportType::WRONG_PRICE->value,
             'status' => ReportStatus::NEW->value,
+        ]);
+
+        $this->assertDatabaseHas('notifications', [
+            'notifiable_type' => User::class,
+            'notifiable_id' => $hepAdmin->id,
+        ]);
+
+        $this->assertDatabaseHas('notifications', [
+            'notifiable_type' => User::class,
+            'notifiable_id' => $hepStaff->id,
         ]);
     }
 
