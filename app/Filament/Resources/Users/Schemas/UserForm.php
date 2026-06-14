@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Users\Schemas;
 
 use App\Enums\UserStatus;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -34,10 +35,32 @@ class UserForm
                             ->tel()
                             ->maxLength(30),
 
+                        FileUpload::make('profile_photo_path')
+                            ->label('Gambar Profil')
+                            ->image()
+                            ->imageEditor()
+                            ->imagePreviewHeight('120')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(2048)
+                            ->disk('public')
+                            ->directory('profile-photos')
+                            ->visibility('public')
+                            ->openable()
+                            ->downloadable()
+                            ->columnSpanFull(),
+
                         Select::make('status')
                             ->label('Status')
                             ->options(UserStatus::options())
                             ->default(UserStatus::ACTIVE->value)
+                            ->required(),
+
+                        Select::make('ui_theme')
+                            ->label('Tema Workspace')
+                            ->options(collect(config('hep.ui_themes'))->mapWithKeys(fn (array $theme, string $key): array => [
+                                $key => $theme['label'],
+                            ])->all())
+                            ->default('polimas_biru_oren')
                             ->required(),
 
                         Select::make('role')

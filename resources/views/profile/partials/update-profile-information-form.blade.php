@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            Kemaskini maklumat akaun, emel dan gambar profil anda.
+            Kemaskini maklumat akaun, gambar profil dan tema paparan workspace anda.
         </p>
     </header>
 
@@ -17,7 +17,9 @@
         @csrf
         @method('patch')
 
-        <div class="flex items-center gap-4">
+        <div class="rounded-2xl border border-dashed border-orange-200 bg-orange-50/70 p-4">
+            <p class="mb-4 text-sm font-extrabold text-orange-900">Letak gambar profil di sini</p>
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
             @if ($user->profilePhotoUrl())
                 <img src="{{ $user->profilePhotoUrl() }}" alt="Gambar profil {{ $user->name }}" class="h-20 w-20 rounded-full object-cover ring-4 ring-orange-100">
             @else
@@ -28,9 +30,10 @@
 
             <div class="flex-1">
                 <x-input-label for="profile_photo" value="Gambar Profil" />
-                <input id="profile_photo" name="profile_photo" type="file" accept="image/png,image/jpeg,image/webp" class="mt-1 block w-full rounded-md border border-gray-300 text-sm text-gray-700 file:me-4 file:border-0 file:bg-orange-50 file:px-4 file:py-2 file:text-sm file:font-bold file:text-orange-700 hover:file:bg-orange-100">
+                <input id="profile_photo" name="profile_photo" type="file" accept="image/png,image/jpeg,image/webp" class="mt-1 block w-full rounded-xl border border-orange-200 bg-white text-sm text-gray-700 file:me-4 file:border-0 file:bg-orange-600 file:px-4 file:py-2.5 file:text-sm file:font-bold file:text-white hover:file:bg-orange-700">
                 <p class="mt-1 text-xs text-gray-500">Format dibenarkan: JPG, PNG atau WEBP. Saiz maksimum 2MB.</p>
                 <x-input-error class="mt-2" :messages="$errors->get('profile_photo')" />
+            </div>
             </div>
         </div>
 
@@ -68,6 +71,19 @@
             <x-input-label for="phone" value="No. Telefon" />
             <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" autocomplete="tel" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+
+        <div>
+            <x-input-label for="ui_theme" value="Tema Workspace" />
+            <select id="ui_theme" name="ui_theme" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500">
+                @foreach (config('hep.ui_themes') as $key => $theme)
+                    <option value="{{ $key }}" @selected(old('ui_theme', $user->uiThemeKey()) === $key)>
+                        {{ $theme['label'] }}
+                    </option>
+                @endforeach
+            </select>
+            <p class="mt-1 text-xs text-gray-500">Tema ini digunakan untuk workspace pengguna dan panel admin anda.</p>
+            <x-input-error class="mt-2" :messages="$errors->get('ui_theme')" />
         </div>
 
         <div class="flex items-center gap-4">

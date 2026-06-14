@@ -25,6 +25,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'no_telefon' => $this->phone,
             'profile_photo_url' => $this->profilePhotoUrl(),
+            'tema_paparan' => $this->uiTheme()['label'],
             'status' => $this->status?->value,
             'status_label' => $this->status?->label(),
             'roles' => $this->getRoleNames()->values(),

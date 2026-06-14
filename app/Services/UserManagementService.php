@@ -69,6 +69,8 @@ class UserManagementService
             'email',
             'password',
             'phone',
+            'profile_photo_path',
+            'ui_theme',
             'status',
         ]);
 

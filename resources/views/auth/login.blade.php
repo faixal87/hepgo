@@ -4,7 +4,7 @@
 
     <div class="mb-6 text-center">
         <h1 class="text-2xl font-extrabold text-zinc-950">Log Masuk</h1>
-        <p class="mt-2 text-sm font-medium text-zinc-500">Portal Rumah Sewa HEP POLIMAS</p>
+        <p class="mt-2 text-sm font-medium text-zinc-500">Masukkan emel dan kata laluan akaun anda.</p>
     </div>
 
     <form method="POST" action="{{ route('login') }}">
@@ -32,14 +32,14 @@
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-orange-600 shadow-sm focus:ring-orange-500" name="remember">
                 <span class="ms-2 text-sm text-gray-600">Ingat Saya</span>
             </label>
         </div>
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                <a class="rounded-md text-sm font-semibold text-blue-700 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2" href="{{ route('password.request') }}">
                     Lupa kata laluan?
                 </a>
             @endif

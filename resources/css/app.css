@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .hep-shell {
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at top left, color-mix(in srgb, var(--hep-accent) 12%, transparent), transparent 28rem),
+            var(--hep-workspace);
+    }
+
+    .hep-sidebar {
+        background: linear-gradient(180deg, var(--hep-sidebar), var(--hep-sidebar-secondary));
+        color: #ffffff;
+    }
+
+    .hep-sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-radius: 0.875rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 800;
+        color: rgb(255 255 255 / 0.82);
+        transition: background-color 150ms ease, color 150ms ease;
+    }
+
+    .hep-sidebar-link:hover,
+    .hep-sidebar-link-active {
+        background: rgb(255 255 255 / 0.14);
+        color: #ffffff;
+    }
+
+    .hep-topbar {
+        border-bottom: 1px solid rgb(226 232 240);
+        background: rgb(255 255 255 / 0.92);
+        backdrop-filter: blur(16px);
+    }
+
+    .hep-accent-button {
+        background: var(--hep-accent);
+        color: #ffffff;
+    }
+
+    .hep-accent-button:hover {
+        filter: brightness(0.94);
+    }
+}

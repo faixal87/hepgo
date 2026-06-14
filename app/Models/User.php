@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['name', 'email', 'password', 'phone', 'profile_photo_path', 'status', 'last_login_at'])]
+#[Fillable(['name', 'email', 'password', 'phone', 'profile_photo_path', 'ui_theme', 'status', 'last_login_at'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser
 {
@@ -39,6 +39,21 @@ class User extends Authenticatable implements FilamentUser
         }
 
         return Storage::disk('public')->url($this->profile_photo_path);
+    }
+
+    public function uiThemeKey(): string
+    {
+        return array_key_exists((string) $this->ui_theme, config('hep.ui_themes'))
+            ? (string) $this->ui_theme
+            : 'polimas_biru_oren';
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function uiTheme(): array
+    {
+        return config("hep.ui_themes.{$this->uiThemeKey()}");
     }
 
     /**

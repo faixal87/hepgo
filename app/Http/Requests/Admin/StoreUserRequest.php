@@ -26,6 +26,7 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['nullable', 'string', 'max:30'],
             'status' => ['required', Rule::in(UserStatus::values())],
+            'ui_theme' => ['required', Rule::in(array_keys(config('hep.ui_themes')))],
             'role' => [
                 'required',
                 Rule::in(array_keys(config('hep.roles'))),

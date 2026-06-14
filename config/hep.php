@@ -25,6 +25,33 @@ return [
         'parent',
     ],
 
+    'ui_themes' => [
+        'polimas_biru_oren' => [
+            'label' => 'Biru POLIMAS + Oren',
+            'sidebar' => '#0f2f70',
+            'sidebar_secondary' => '#1d4ed8',
+            'accent' => '#ea580c',
+            'accent_soft' => '#fff7ed',
+            'workspace' => '#f8fafc',
+        ],
+        'kelabu_biru' => [
+            'label' => 'Kelabu + Biru',
+            'sidebar' => '#1f2937',
+            'sidebar_secondary' => '#334155',
+            'accent' => '#2563eb',
+            'accent_soft' => '#eff6ff',
+            'workspace' => '#f3f4f6',
+        ],
+        'kelabu_oren' => [
+            'label' => 'Kelabu + Oren',
+            'sidebar' => '#27272a',
+            'sidebar_secondary' => '#3f3f46',
+            'accent' => '#f97316',
+            'accent_soft' => '#fff7ed',
+            'workspace' => '#f4f4f5',
+        ],
+    ],
+
     'permissions' => [
         'view dashboard',
         'view users',

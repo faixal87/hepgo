@@ -18,7 +18,10 @@ class ProfileTest extends TestCase
             ->actingAs($user)
             ->get('/profile');
 
-        $response->assertOk();
+        $response
+            ->assertOk()
+            ->assertSee('Letak gambar profil di sini')
+            ->assertSee('Tema Workspace');
     }
 
     public function test_profile_information_can_be_updated(): void
@@ -31,6 +34,7 @@ class ProfileTest extends TestCase
                 'name' => 'Test User',
                 'email' => 'test@example.com',
                 'phone' => '0123456789',
+                'ui_theme' => 'kelabu_biru',
             ]);
 
         $response
@@ -42,6 +46,7 @@ class ProfileTest extends TestCase
         $this->assertSame('Test User', $user->name);
         $this->assertSame('test@example.com', $user->email);
         $this->assertSame('0123456789', $user->phone);
+        $this->assertSame('kelabu_biru', $user->ui_theme);
         $this->assertNull($user->email_verified_at);
     }
 
@@ -55,6 +60,7 @@ class ProfileTest extends TestCase
                 'name' => 'Test User',
                 'email' => $user->email,
                 'phone' => $user->phone,
+                'ui_theme' => $user->uiThemeKey(),
             ]);
 
         $response
