@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Responses\FilamentLogoutResponse;
 use App\Models\Area;
 use App\Models\Category;
 use App\Models\Facility;
@@ -17,6 +18,7 @@ use App\Policies\PropertyPolicy;
 use App\Policies\PropertyReportPolicy;
 use App\Policies\UserPolicy;
 use Carbon\Carbon;
+use Filament\Auth\Http\Responses\Contracts\LogoutResponse as FilamentLogoutResponseContract;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -30,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(FilamentLogoutResponseContract::class, FilamentLogoutResponse::class);
     }
 
     /**

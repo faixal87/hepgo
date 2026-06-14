@@ -73,6 +73,19 @@ class AdminPanelTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_admin_logout_redirects_to_public_homepage(): void
+    {
+        $user = User::factory()->create();
+        $user->assignRole('super_admin');
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/admin/logout');
+
+        $this->assertGuest();
+        $response->assertRedirect('/');
+    }
+
     public function test_hep_admin_can_view_but_cannot_modify_super_admin_account(): void
     {
         $superAdmin = User::factory()->create([
