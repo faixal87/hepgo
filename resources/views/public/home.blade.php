@@ -7,16 +7,6 @@
     <section class="relative overflow-hidden bg-white">
         <div class="mx-auto grid max-w-7xl gap-8 px-4 py-8 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:items-center md:py-12 lg:px-8">
             <div class="space-y-6">
-                <div class="flex flex-wrap items-center gap-5">
-                    <div class="rounded-3xl bg-white px-5 py-4 shadow-sm ring-1 ring-orange-100">
-                        <img src="{{ asset('images/logo_polimas.png') }}" alt="Logo POLIMAS" class="h-20 w-auto object-contain sm:h-24">
-                    </div>
-                    <div class="leading-tight">
-                        <p class="text-sm font-extrabold uppercase text-orange-700">Portal Rumah Sewa HEP</p>
-                        <p class="mt-1 text-2xl font-black text-blue-900 sm:text-3xl">POLIMAS</p>
-                    </div>
-                </div>
-
                 <div class="inline-flex rounded-full bg-orange-50 px-4 py-2 text-xs font-extrabold uppercase tracking-wide text-orange-700 ring-1 ring-orange-100">
                     Rujukan rasmi HEP POLIMAS
                 </div>
