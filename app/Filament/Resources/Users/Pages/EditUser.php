@@ -29,6 +29,12 @@ class EditUser extends EditRecord
             $this->roleToSync = $data['role'];
         }
 
+        abort_if(
+            $this->roleToSync === 'super_admin' && ! auth()->user()?->hasRole('super_admin'),
+            403,
+            'Hanya Pentadbir Utama boleh menetapkan peranan Pentadbir Utama.'
+        );
+
         unset($data['role'], $data['password_confirmation']);
 
         return $data;

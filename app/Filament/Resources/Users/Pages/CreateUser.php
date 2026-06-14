@@ -17,6 +17,12 @@ class CreateUser extends CreateRecord
     {
         $this->roleToSync = $data['role'] ?? null;
 
+        abort_if(
+            $this->roleToSync === 'super_admin' && ! auth()->user()?->hasRole('super_admin'),
+            403,
+            'Hanya Pentadbir Utama boleh mencipta akaun Pentadbir Utama.'
+        );
+
         unset($data['role'], $data['password_confirmation']);
 
         return $data;

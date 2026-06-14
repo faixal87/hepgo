@@ -13,7 +13,13 @@ class UpdateUserRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->can('edit users') ?? false;
+        $user = $this->route('user');
+
+        if (! $user instanceof User) {
+            return $this->user()?->can('edit users') ?? false;
+        }
+
+        return $this->user()?->can('update', $user) ?? false;
     }
 
     /**
@@ -35,7 +41,11 @@ class UpdateUserRequest extends FormRequest
             ],
             'phone' => ['nullable', 'string', 'max:30'],
             'status' => ['required', Rule::in(UserStatus::values())],
-            'role' => ['nullable', Rule::in(array_keys(config('hep.roles')))],
+            'role' => [
+                'nullable',
+                Rule::in(array_keys(config('hep.roles'))),
+                Rule::notIn($this->user()?->hasRole('super_admin') ? [] : ['super_admin']),
+            ],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
         ];
     }

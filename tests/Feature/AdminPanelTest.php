@@ -73,6 +73,35 @@ class AdminPanelTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_hep_admin_can_view_but_cannot_modify_super_admin_account(): void
+    {
+        $superAdmin = User::factory()->create([
+            'name' => 'Pentadbir Utama Sistem',
+            'email' => 'utama@hep.test',
+        ]);
+        $superAdmin->assignRole('super_admin');
+
+        $hepAdmin = User::factory()->create([
+            'email' => 'hepadmin@hep.test',
+        ]);
+        $hepAdmin->assignRole('hep_admin');
+
+        $this
+            ->actingAs($hepAdmin)
+            ->get("/admin/users/{$superAdmin->id}")
+            ->assertOk()
+            ->assertSee('Pentadbir Utama Sistem');
+
+        $this
+            ->actingAs($hepAdmin)
+            ->get("/admin/users/{$superAdmin->id}/edit")
+            ->assertForbidden();
+
+        $this->assertTrue($hepAdmin->can('view', $superAdmin));
+        $this->assertFalse($hepAdmin->can('update', $superAdmin));
+        $this->assertFalse($hepAdmin->can('delete', $superAdmin));
+    }
+
     public function test_department_staff_can_submit_records_but_cannot_verify_or_publish(): void
     {
         $user = User::factory()->create();

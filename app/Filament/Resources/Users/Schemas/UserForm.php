@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Arr;
 
 class UserForm
 {
@@ -41,7 +42,9 @@ class UserForm
 
                         Select::make('role')
                             ->label('Peranan')
-                            ->options(config('hep.roles'))
+                            ->options(fn (): array => auth()->user()?->hasRole('super_admin')
+                                ? config('hep.roles')
+                                : Arr::except(config('hep.roles'), ['super_admin']))
                             ->searchable()
                             ->preload()
                             ->required(fn (string $operation): bool => $operation === 'create')

@@ -26,7 +26,11 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['nullable', 'string', 'max:30'],
             'status' => ['required', Rule::in(UserStatus::values())],
-            'role' => ['required', Rule::in(array_keys(config('hep.roles')))],
+            'role' => [
+                'required',
+                Rule::in(array_keys(config('hep.roles'))),
+                Rule::notIn($this->user()?->hasRole('super_admin') ? [] : ['super_admin']),
+            ],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
     }

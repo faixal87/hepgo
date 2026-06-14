@@ -23,16 +23,28 @@ class UserPolicy
 
     public function update(User $user, User $model): bool
     {
+        if ($model->hasRole('super_admin') && ! $user->hasRole('super_admin')) {
+            return false;
+        }
+
         return $user->can('edit users');
     }
 
     public function delete(User $user, User $model): bool
     {
+        if ($model->hasRole('super_admin')) {
+            return false;
+        }
+
         return $user->can('delete users') && $user->isNot($model);
     }
 
     public function restore(User $user, User $model): bool
     {
+        if ($model->hasRole('super_admin') && ! $user->hasRole('super_admin')) {
+            return false;
+        }
+
         return $user->can('edit users');
     }
 
