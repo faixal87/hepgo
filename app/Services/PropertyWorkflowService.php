@@ -128,11 +128,15 @@ class PropertyWorkflowService
                 $thumbnailAssigned = true;
             }
 
-            $imageService->storePropertyImage($property, $file, [
-                'caption' => $entry['caption'] ?? null,
-                'is_thumbnail' => $isThumbnail,
-                'sort_order' => (int) ($entry['sort_order'] ?? ($index + 1)),
-            ]);
+            try {
+                $imageService->storePropertyImage($property, $file, [
+                    'caption' => $entry['caption'] ?? null,
+                    'is_thumbnail' => $isThumbnail,
+                    'sort_order' => (int) ($entry['sort_order'] ?? ($index + 1)),
+                ]);
+            } catch (Throwable $exception) {
+                report($exception);
+            }
         }
     }
 
