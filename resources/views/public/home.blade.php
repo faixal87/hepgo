@@ -34,7 +34,7 @@
                         class="min-h-12 rounded-xl border-zinc-200 bg-white text-sm font-semibold shadow-sm focus:border-orange-500 focus:ring-orange-500"
                     >
                     <button type="submit" class="min-h-12 rounded-xl bg-orange-600 px-6 text-sm font-extrabold text-white shadow-sm transition hover:bg-orange-700">
-                        Cari Rumah
+                        Search
                     </button>
                 </form>
 
@@ -80,18 +80,20 @@
                         class="group block"
                         title="Buka gambar penuh"
                     >
-                        <div class="relative">
+                        <div class="relative bg-gradient-to-br from-slate-100 via-white to-blue-50">
                             <img
                                 src="{{ $heroImageUrl }}"
                                 alt="{{ $heroImageTitle }}"
                                 loading="lazy"
                                 width="1536"
                                 height="1024"
-                                class="h-72 w-full object-cover object-center transition duration-300 group-hover:scale-[1.02] md:h-[22rem]"
+                                class="h-80 w-full object-contain object-center transition duration-300 group-hover:scale-[1.01] md:h-[28rem]"
                             >
-                            <div class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-zinc-950/75 via-zinc-950/15 to-transparent p-5">
-                                <p class="text-lg font-extrabold text-white">{{ $heroImageTitle }}</p>
-                                <p class="mt-1 text-sm font-medium text-white/85">{{ $heroImageCaption }}</p>
+                            <div class="pointer-events-none absolute inset-x-0 bottom-0 p-3 opacity-0 transition duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 md:p-4">
+                                <div class="inline-flex max-w-full flex-col rounded-xl bg-orange-50/95 px-3 py-2 shadow-sm ring-1 ring-orange-200/80">
+                                    <p class="text-sm font-extrabold text-orange-900 md:text-base">{{ $heroImageTitle }}</p>
+                                    <p class="mt-0.5 text-xs font-semibold text-orange-700 md:text-sm">{{ $heroImageCaption }}</p>
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -107,7 +109,7 @@
                 <h2 class="mt-1 text-2xl font-extrabold text-zinc-950">Rumah Masih Kosong</h2>
             </div>
             <a href="{{ route('properties.index') }}" class="rounded-full bg-white px-4 py-2 text-sm font-bold text-zinc-700 shadow-sm ring-1 ring-zinc-200 transition hover:bg-zinc-50">
-                Lihat Semua
+                View All
             </a>
         </div>
 

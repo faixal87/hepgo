@@ -37,7 +37,7 @@ class SystemNotificationService
             ->warning()
             ->actions([
                 Action::make('buka_aduan')
-                    ->label('Buka Aduan')
+                    ->label('Open Report')
                     ->button()
                     ->markAsRead()
                     ->url(PropertyReportResource::getUrl('edit', ['record' => $report], panel: 'admin')),
@@ -64,7 +64,7 @@ class SystemNotificationService
             ->info()
             ->actions([
                 Action::make('buka_listing')
-                    ->label('Buka Listing')
+                    ->label('Open Listing')
                     ->button()
                     ->markAsRead()
                     ->url(PropertyResource::getUrl('edit', ['record' => $property], panel: 'admin')),
@@ -107,7 +107,7 @@ class SystemNotificationService
             ->body($body)
             ->actions([
                 Action::make('buka_listing')
-                    ->label('Buka Listing')
+                    ->label('Open Listing')
                     ->button()
                     ->markAsRead()
                     ->url(PropertyResource::getUrl('edit', ['record' => $property], panel: 'admin')),
@@ -135,7 +135,7 @@ class SystemNotificationService
             ->info()
             ->actions([
                 Action::make('buka_listing')
-                    ->label('Buka Listing')
+                    ->label('Open Listing')
                     ->button()
                     ->markAsRead()
                     ->url(PropertyResource::getUrl('edit', ['record' => $property], panel: 'admin')),

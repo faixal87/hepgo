@@ -81,7 +81,7 @@ class PropertyReportsTable
             ])
             ->recordActions([
                 Action::make('dalam_semakan')
-                    ->label('Tandakan Dalam Semakan')
+                    ->label('Mark Reviewing')
                     ->icon(Heroicon::OutlinedClock)
                     ->color('info')
                     ->visible(fn (PropertyReport $record): bool => (auth()->user()?->can('resolve', $record) ?? false)
@@ -95,7 +95,7 @@ class PropertyReportsTable
                     ->successNotificationTitle('Aduan ditandakan sebagai Dalam Semakan.'),
 
                 Action::make('selesai')
-                    ->label('Tandakan Selesai')
+                    ->label('Mark Resolved')
                     ->icon(Heroicon::OutlinedCheckCircle)
                     ->color('success')
                     ->visible(fn (PropertyReport $record): bool => auth()->user()?->can('resolve', $record) ?? false)
@@ -108,7 +108,7 @@ class PropertyReportsTable
                     ->successNotificationTitle('Aduan ditandakan sebagai Selesai.'),
 
                 Action::make('tolak')
-                    ->label('Tolak Aduan')
+                    ->label('Reject Report')
                     ->icon(Heroicon::OutlinedXCircle)
                     ->color('danger')
                     ->visible(fn (PropertyReport $record): bool => auth()->user()?->can('resolve', $record) ?? false)
@@ -121,12 +121,12 @@ class PropertyReportsTable
                     ->successNotificationTitle('Aduan ditolak.'),
 
                 EditAction::make()
-                    ->label('Kemaskini'),
+                    ->label('Edit'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label('Padam Dipilih'),
+                        ->label('Delete Selected'),
                 ]),
             ]);
     }

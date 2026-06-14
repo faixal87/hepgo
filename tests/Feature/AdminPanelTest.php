@@ -83,7 +83,7 @@ class AdminPanelTest extends TestCase
         $this
             ->get('/admin/login')
             ->assertOk()
-            ->assertSee('Kembali ke Portal');
+            ->assertSee('Back to Portal');
     }
 
     public function test_admin_logout_redirects_to_public_homepage(): void

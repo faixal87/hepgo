@@ -80,13 +80,13 @@ class FacilityResource extends Resource
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                EditAction::make()->label('Kemaskini'),
-                DeleteAction::make()->label('Padam'),
+                EditAction::make()->label('Edit'),
+                DeleteAction::make()->label('Delete'),
                 RestoreAction::make()->label('Pulihkan'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make()->label('Padam Dipilih'),
+                    DeleteBulkAction::make()->label('Delete Selected'),
                     RestoreBulkAction::make()->label('Pulihkan Dipilih'),
                 ]),
             ]);

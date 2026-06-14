@@ -14,7 +14,7 @@ class EditPropertyReport extends EditRecord
     {
         return [
             DeleteAction::make()
-                ->label('Padam'),
+                ->label('Delete'),
         ];
     }
 

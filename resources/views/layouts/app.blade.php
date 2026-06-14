@@ -46,12 +46,12 @@
                         @if (auth()->user()?->hasAnyRole(config('hep.admin_panel_roles')))
                             <a href="/admin" class="hep-sidebar-link">
                                 <x-lucide-shield-check class="h-5 w-5" />
-                                <span>Panel Admin</span>
+                                <span>Admin Panel</span>
                             </a>
                         @endif
                         <a href="{{ route('home') }}" class="hep-sidebar-link {{ request()->routeIs('home') ? 'hep-sidebar-link-active' : '' }}">
                             <x-lucide-house class="h-5 w-5" />
-                            <span>Ke Portal</span>
+                            <span>Portal</span>
                         </a>
                     </nav>
 

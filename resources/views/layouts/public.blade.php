@@ -32,11 +32,11 @@
                     </a>
                     @auth
                         <a href="/admin" class="rounded-full bg-blue-700 px-4 py-2 text-white shadow-sm transition hover:bg-blue-800">
-                            Panel Admin
+                            Admin Panel
                         </a>
                     @else
                         <a href="{{ route('login') }}" class="rounded-full bg-blue-700 px-4 py-2 text-white shadow-sm transition hover:bg-blue-800">
-                            Log Masuk
+                            Login
                         </a>
                     @endauth
                 </nav>

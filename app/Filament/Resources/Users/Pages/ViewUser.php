@@ -14,7 +14,7 @@ class ViewUser extends ViewRecord
     {
         return [
             EditAction::make()
-                ->label('Kemaskini'),
+                ->label('Edit'),
         ];
     }
 }

@@ -26,7 +26,7 @@
 
     <section class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <a href="{{ route('properties.index') }}" class="inline-flex rounded-full bg-white px-4 py-2 text-sm font-bold text-zinc-700 shadow-sm ring-1 ring-zinc-200 transition hover:bg-zinc-50">
-            Kembali ke Senarai
+            Back to List
         </a>
     </section>
 
@@ -157,20 +157,20 @@
                     @if ($mapsUrl)
                         <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-orange-500 px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-orange-600">
                             <x-lucide-map-pinned class="h-5 w-5 shrink-0" />
-                            <span>Peta Rumah</span>
+                            <span>House Map</span>
                         </a>
                     @endif
 
                     @if ($directionUrl)
                         <a href="{{ $directionUrl }}" target="_blank" rel="noopener" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-blue-700">
                             <x-lucide-route class="h-5 w-5 shrink-0" />
-                            <span>Arah Ke POLIMAS</span>
+                            <span>Directions to POLIMAS</span>
                         </a>
                     @endif
 
                     <a href="{{ route('reports.create.property', $property) }}" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-zinc-100 px-4 py-3 text-center text-sm font-extrabold text-zinc-700 ring-1 ring-zinc-200 transition hover:bg-zinc-200">
                         <x-lucide-flag class="h-5 w-5 shrink-0" />
-                        <span>Laporkan Maklumat</span>
+                        <span>Report Info</span>
                     </a>
                 </div>
                 @if (filled($property->distance_km))

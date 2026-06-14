@@ -16,7 +16,7 @@ class EditOwner extends EditRecord
         return [
             ...OwnerResource::verificationActions(),
             DeleteAction::make()
-                ->label('Padam'),
+                ->label('Delete'),
             RestoreAction::make()
                 ->label('Pulihkan'),
         ];

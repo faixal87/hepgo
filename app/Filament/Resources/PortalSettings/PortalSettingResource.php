@@ -95,7 +95,7 @@ class PortalSettingResource extends Resource
             ])
             ->recordActions([
                 EditAction::make()
-                    ->label('Kemaskini'),
+                    ->label('Edit'),
             ]);
     }
 

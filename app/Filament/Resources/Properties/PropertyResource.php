@@ -267,7 +267,7 @@ class PropertyResource extends Resource
                             ->description('Pilih beberapa gambar sekali gus. Selepas dipilih, anda boleh tambah kapsyen untuk setiap gambar.')
                             ->schema([
                                 FileUpload::make('new_uploaded_images')
-                                    ->label('Muat Naik Gambar')
+                                    ->label('Upload Images')
                                     ->image()
                                     ->multiple()
                                     ->storeFiles(false)

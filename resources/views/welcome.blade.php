@@ -23,12 +23,12 @@
                             <a href="/admin" class="rounded-md px-3 py-2 font-medium text-gray-700 hover:bg-gray-100">Admin</a>
                         @endif
 
-                        <a href="{{ route('dashboard') }}" class="rounded-md px-3 py-2 font-medium text-gray-700 hover:bg-gray-100">Papan Pemuka</a>
+                            <a href="{{ route('dashboard') }}" class="rounded-md px-3 py-2 font-medium text-gray-700 hover:bg-gray-100">Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}" class="rounded-md px-3 py-2 font-medium text-gray-700 hover:bg-gray-100">Log Masuk</a>
+                        <a href="{{ route('login') }}" class="rounded-md px-3 py-2 font-medium text-gray-700 hover:bg-gray-100">Login</a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="rounded-md bg-sky-700 px-4 py-2 font-medium text-white hover:bg-sky-800">Daftar</a>
+                            <a href="{{ route('register') }}" class="rounded-md bg-sky-700 px-4 py-2 font-medium text-white hover:bg-sky-800">Register</a>
                         @endif
                     @endauth
                 </nav>
@@ -48,10 +48,10 @@
 
                     <div class="mt-8 flex flex-wrap gap-3">
                         @guest
-                            <a href="{{ route('login') }}" class="rounded-md bg-sky-700 px-5 py-3 text-sm font-semibold text-white hover:bg-sky-800">Log Masuk</a>
-                            <a href="{{ route('register') }}" class="rounded-md border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-50">Daftar Akaun</a>
+                            <a href="{{ route('login') }}" class="rounded-md bg-sky-700 px-5 py-3 text-sm font-semibold text-white hover:bg-sky-800">Login</a>
+                            <a href="{{ route('register') }}" class="rounded-md border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-50">Register Account</a>
                         @else
-                            <a href="{{ route('dashboard') }}" class="rounded-md bg-sky-700 px-5 py-3 text-sm font-semibold text-white hover:bg-sky-800">Buka Papan Pemuka</a>
+                            <a href="{{ route('dashboard') }}" class="rounded-md bg-sky-700 px-5 py-3 text-sm font-semibold text-white hover:bg-sky-800">Open Dashboard</a>
                         @endguest
                     </div>
                 </div>

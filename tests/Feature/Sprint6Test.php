@@ -77,8 +77,8 @@ class Sprint6Test extends TestCase
 
         $response
             ->assertOk()
-            ->assertDontSee('Peta Rumah')
-            ->assertSee('Arah Ke POLIMAS')
+            ->assertDontSee('House Map')
+            ->assertSee('Directions to POLIMAS')
             ->assertSee('Jarak anggaran: 1.5 km dari POLIMAS');
     }
 

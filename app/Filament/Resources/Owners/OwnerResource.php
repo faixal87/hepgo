@@ -199,16 +199,16 @@ class OwnerResource extends Resource
             ->recordActions([
                 ...static::verificationActions(),
                 EditAction::make()
-                    ->label('Kemaskini'),
+                    ->label('Edit'),
                 DeleteAction::make()
-                    ->label('Padam'),
+                    ->label('Delete'),
                 RestoreAction::make()
                     ->label('Pulihkan'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label('Padam Dipilih'),
+                        ->label('Delete Selected'),
                     RestoreBulkAction::make()
                         ->label('Pulihkan Dipilih'),
                 ]),
@@ -222,7 +222,7 @@ class OwnerResource extends Resource
     {
         return [
             Action::make('sahkan')
-                ->label('Sahkan Pemilik')
+                ->label('Verify Owner')
                 ->icon(Heroicon::OutlinedCheckCircle)
                 ->color('success')
                 ->visible(fn (Owner $record): bool => (auth()->user()?->can('verify', $record) ?? false)
@@ -239,7 +239,7 @@ class OwnerResource extends Resource
                 ->successNotificationTitle('Pemilik rumah berjaya disahkan.'),
 
             Action::make('tolak')
-                ->label('Tolak Pemilik')
+                ->label('Reject Owner')
                 ->icon(Heroicon::OutlinedXCircle)
                 ->color('danger')
                 ->visible(fn (Owner $record): bool => (auth()->user()?->can('verify', $record) ?? false)

@@ -120,7 +120,7 @@
         @endif
 
         <div class="grid grid-cols-4 gap-2">
-            <a href="{{ route('properties.show', $property) }}" title="Lihat Maklumat" aria-label="Lihat maklumat {{ $property->title }}" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-blue-900 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-blue-800">
+            <a href="{{ route('properties.show', $property) }}" title="View Info" aria-label="View info {{ $property->title }}" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-blue-900 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-blue-800">
                 <x-lucide-info class="h-5 w-5 shrink-0" />
                 <span class="block max-w-full">Info</span>
             </a>
@@ -136,15 +136,15 @@
                 </span>
             @endif
             @if ($mapsUrl)
-                <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" title="Peta Rumah" aria-label="Buka lokasi rumah di Google Maps" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-orange-500 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-orange-600">
+                <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" title="House Map" aria-label="Open house location in Google Maps" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-orange-500 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-orange-600">
                     <x-lucide-map-pinned class="h-5 w-5 shrink-0" />
-                    <span class="block max-w-full">Peta</span>
+                    <span class="block max-w-full">Map</span>
                 </a>
             @endif
             @if ($directionUrl)
-                <a href="{{ $directionUrl }}" target="_blank" rel="noopener" title="Arah Ke POLIMAS" aria-label="Buka arah dari rumah ke POLIMAS" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-blue-600 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-blue-700">
+                <a href="{{ $directionUrl }}" target="_blank" rel="noopener" title="Directions to POLIMAS" aria-label="Open directions from house to POLIMAS" class="flex h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-blue-600 px-1.5 py-2 text-center text-[11px] font-extrabold leading-tight text-white shadow-sm transition hover:bg-blue-700">
                     <x-lucide-route class="h-5 w-5 shrink-0" />
-                    <span class="block max-w-full">Arah</span>
+                    <span class="block max-w-full">Route</span>
                 </a>
             @endif
         </div>

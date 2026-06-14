@@ -54,7 +54,7 @@
                         Emel anda belum disahkan.
 
                         <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Klik di sini untuk hantar semula emel pengesahan.
+                            Resend verification email.
                         </button>
                     </p>
 
@@ -87,7 +87,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>Simpan</x-primary-button>
+            <x-primary-button>Save</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p

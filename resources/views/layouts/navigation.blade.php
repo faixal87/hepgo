@@ -18,7 +18,7 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6 sm:gap-3">
                 <a href="{{ route('home') }}" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition hover:border-orange-200 hover:text-orange-600">
                     <x-lucide-house class="h-4 w-4" />
-                    <span>Ke Portal</span>
+                    <span>Portal</span>
                 </a>
 
                 <x-dropdown align="right" width="48">
@@ -47,7 +47,7 @@
 
                         @if (Auth::user()->hasAnyRole(config('hep.admin_panel_roles')))
                             <x-dropdown-link href="/admin">
-                                Panel Admin
+                                Admin Panel
                             </x-dropdown-link>
                         @endif
 
@@ -57,7 +57,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                Log Keluar
+                                Logout
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -84,11 +84,11 @@
                 Profil & Tema
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                Ke Portal
+                Portal
             </x-responsive-nav-link>
             @if (Auth::user()->hasAnyRole(config('hep.admin_panel_roles')))
                 <x-responsive-nav-link href="/admin">
-                    Panel Admin
+                    Admin Panel
                 </x-responsive-nav-link>
             @endif
         </div>
@@ -117,7 +117,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        Log Keluar
+                        Logout
                     </x-responsive-nav-link>
                 </form>
             </div>

@@ -84,7 +84,7 @@
                     Maklumat aduan akan digunakan oleh HEP untuk semakan dalaman sahaja.
                 </p>
                 <button type="submit" class="rounded-2xl bg-orange-600 px-6 py-3 text-sm font-extrabold text-white shadow-sm transition hover:bg-orange-700">
-                    Hantar Aduan
+                    Submit Report
                 </button>
             </div>
         </form>
