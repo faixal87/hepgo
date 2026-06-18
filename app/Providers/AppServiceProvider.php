@@ -19,12 +19,14 @@ use App\Policies\PortalSettingPolicy;
 use App\Policies\PropertyPolicy;
 use App\Policies\PropertyReportPolicy;
 use App\Policies\UserPolicy;
+use App\Services\VisitorTrackingService;
 use Carbon\Carbon;
 use Filament\Auth\Http\Responses\Contracts\LogoutResponse as FilamentLogoutResponseContract;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -52,6 +54,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(PropertyReport::class, PropertyReportPolicy::class);
         Gate::policy(PortalSetting::class, PortalSettingPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
+
+        View::composer('layouts.public', function ($view): void {
+            $view->with('visitorStats', app(VisitorTrackingService::class)->publicStats());
+        });
 
         RateLimiter::for('login', function (Request $request) {
             return Limit::perMinute(5)->by($request->input('email').'|'.$request->ip());

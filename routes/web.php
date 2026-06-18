@@ -5,11 +5,13 @@ use App\Http\Controllers\PropertyReportController;
 use App\Http\Controllers\PublicPortalController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [PublicPortalController::class, 'home'])->name('home');
-Route::view('/rumah-sewa', 'public.properties.index')->name('properties.index');
-Route::get('/rumah-sewa/{property}', [PublicPortalController::class, 'show'])->name('properties.show');
-Route::get('/aduan', [PropertyReportController::class, 'create'])->name('reports.create');
-Route::get('/rumah-sewa/{property}/aduan', [PropertyReportController::class, 'createForProperty'])->name('reports.create.property');
+Route::middleware('track.public.visitor')->group(function (): void {
+    Route::get('/', [PublicPortalController::class, 'home'])->name('home');
+    Route::view('/rumah-sewa', 'public.properties.index')->name('properties.index');
+    Route::get('/rumah-sewa/{property}', [PublicPortalController::class, 'show'])->name('properties.show');
+    Route::get('/aduan', [PropertyReportController::class, 'create'])->name('reports.create');
+    Route::get('/rumah-sewa/{property}/aduan', [PropertyReportController::class, 'createForProperty'])->name('reports.create.property');
+});
 Route::post('/aduan', [PropertyReportController::class, 'store'])
     ->middleware('throttle:public-reports')
     ->name('reports.store');

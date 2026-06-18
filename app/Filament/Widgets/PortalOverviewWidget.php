@@ -7,6 +7,7 @@ use App\Enums\ReportStatus;
 use App\Enums\VerificationStatus;
 use App\Models\Property;
 use App\Models\PropertyReport;
+use App\Services\VisitorTrackingService;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -24,6 +25,8 @@ class PortalOverviewWidget extends StatsOverviewWidget
      */
     protected function getStats(): array
     {
+        $visitorStats = app(VisitorTrackingService::class)->publicStats();
+
         $pendingVerification = Property::query()
             ->where('verification_status', VerificationStatus::PENDING->value)
             ->count();
@@ -59,6 +62,16 @@ class PortalOverviewWidget extends StatsOverviewWidget
                 ->description('Aduan awam yang belum disemak')
                 ->descriptionIcon(Heroicon::OutlinedFlag)
                 ->color('warning'),
+
+            Stat::make('Pelawat Hari Ini', number_format($visitorStats['today_unique']))
+                ->description(number_format($visitorStats['today_page_views']).' paparan halaman')
+                ->descriptionIcon(Heroicon::OutlinedUsers)
+                ->color('info'),
+
+            Stat::make('Jumlah Pelawat', number_format($visitorStats['total_unique']))
+                ->description('Pelawat unik keseluruhan')
+                ->descriptionIcon(Heroicon::OutlinedEye)
+                ->color('gray'),
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\TrackPublicVisitor;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
@@ -28,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
+            'track.public.visitor' => TrackPublicVisitor::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -26,7 +26,22 @@
                     </span>
                 </a>
 
-                <nav class="flex items-center gap-2 text-sm font-semibold">
+                <nav class="flex items-center gap-3 text-sm font-semibold">
+                    <div class="hidden items-center gap-3 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-zinc-500 ring-1 ring-zinc-200 md:inline-flex">
+                        <span class="inline-flex items-center gap-1.5">
+                            <x-lucide-users class="h-4 w-4 text-blue-700" />
+                            Hari ini {{ number_format($visitorStats['today_unique'] ?? 0) }}
+                        </span>
+                        <span class="h-4 w-px bg-zinc-200"></span>
+                        <span class="inline-flex items-center gap-1.5">
+                            <x-lucide-eye class="h-4 w-4 text-orange-600" />
+                            Jumlah {{ number_format($visitorStats['total_unique'] ?? 0) }}
+                        </span>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1.5 text-[11px] font-bold text-zinc-500 ring-1 ring-zinc-200 md:hidden">
+                        <x-lucide-users class="h-3.5 w-3.5 text-blue-700" />
+                        {{ number_format($visitorStats['today_unique'] ?? 0) }}
+                    </div>
                     <a href="{{ route('properties.index') }}" class="rounded-full px-3 py-2 text-zinc-700 transition hover:bg-orange-50 hover:text-orange-700">
                         Rumah Sewa
                     </a>
