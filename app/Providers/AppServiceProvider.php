@@ -7,6 +7,7 @@ use App\Models\Area;
 use App\Models\Category;
 use App\Models\Facility;
 use App\Models\Owner;
+use App\Models\PortalSetting;
 use App\Models\Property;
 use App\Models\PropertyReport;
 use App\Models\User;
@@ -14,6 +15,7 @@ use App\Policies\AreaPolicy;
 use App\Policies\CategoryPolicy;
 use App\Policies\FacilityPolicy;
 use App\Policies\OwnerPolicy;
+use App\Policies\PortalSettingPolicy;
 use App\Policies\PropertyPolicy;
 use App\Policies\PropertyReportPolicy;
 use App\Policies\UserPolicy;
@@ -48,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Owner::class, OwnerPolicy::class);
         Gate::policy(Property::class, PropertyPolicy::class);
         Gate::policy(PropertyReport::class, PropertyReportPolicy::class);
+        Gate::policy(PortalSetting::class, PortalSettingPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
 
         RateLimiter::for('login', function (Request $request) {

@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\Properties\Pages;
 
+use App\Enums\PropertyAvailabilityStatus;
+use App\Enums\VerificationStatus;
 use App\Filament\Resources\Properties\Pages\Concerns\HandlesPropertyUploadValidation;
 use App\Filament\Resources\Properties\PropertyResource;
 use App\Services\PropertyImageService;
 use App\Services\PropertyWorkflowService;
+use App\Services\SystemNotificationService;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\RestoreAction;
@@ -30,6 +33,12 @@ class EditProperty extends EditRecord
      */
     private array $uploadedImageEntries = [];
 
+    private bool $requiresHepReviewAfterStaffEdit = false;
+
+    private ?PropertyAvailabilityStatus $oldAvailabilityStatus = null;
+
+    private ?VerificationStatus $oldVerificationStatus = null;
+
     protected function mutateFormDataBeforeFill(array $data): array
     {
         return [
@@ -47,7 +56,25 @@ class EditProperty extends EditRecord
         $this->uploadedImages = $uploads['files'];
         $this->uploadedImageEntries = $uploads['entries'];
 
-        return $workflow->preparePropertyPayload($data, $this->getRecord());
+        $record = $this->getRecord();
+        $payload = $workflow->preparePropertyPayload($data, $record);
+
+        if (
+            auth()->user()?->hasRole('staff_jabatan')
+            && $record->created_by === auth()->id()
+            && $record->verification_status === VerificationStatus::VERIFIED
+        ) {
+            $this->requiresHepReviewAfterStaffEdit = true;
+            $this->oldAvailabilityStatus = $record->status;
+            $this->oldVerificationStatus = $record->verification_status;
+
+            $payload['status'] = PropertyAvailabilityStatus::PENDING->value;
+            $payload['verification_status'] = VerificationStatus::PENDING->value;
+            $payload['verified_by'] = null;
+            $payload['verified_at'] = null;
+        }
+
+        return $payload;
     }
 
     protected function getHeaderActions(): array
@@ -70,10 +97,32 @@ class EditProperty extends EditRecord
             $this->uploadedImageEntries,
         );
         app(PropertyImageService::class)->generateWebpVersionsForProperty($this->getRecord());
+
+        if (! $this->requiresHepReviewAfterStaffEdit) {
+            return;
+        }
+
+        $record = $this->getRecord()->refresh();
+
+        $record->statusLogs()->create([
+            'old_status' => $this->oldAvailabilityStatus,
+            'new_status' => $record->status,
+            'old_verification_status' => $this->oldVerificationStatus,
+            'new_verification_status' => $record->verification_status,
+            'changed_by' => auth()->id(),
+            'remarks' => 'Listing dikemaskini oleh staff jabatan dan dihantar semula untuk pengesahan HEP.',
+            'created_at' => now(),
+        ]);
+
+        app(SystemNotificationService::class)->notifyListingUpdatedForReview($record);
     }
 
     protected function getSavedNotificationTitle(): ?string
     {
+        if ($this->requiresHepReviewAfterStaffEdit) {
+            return 'Rumah sewa berjaya dikemaskini dan dihantar semula untuk semakan HEP';
+        }
+
         return 'Rumah sewa berjaya dikemaskini';
     }
 

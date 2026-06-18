@@ -34,6 +34,16 @@ class PortalSettingResource extends Resource
 
     protected static ?int $navigationSort = 40;
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->hasRole('super_admin') ?? false;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->hasRole('super_admin') ?? false;
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema->components([

@@ -131,6 +131,50 @@ class PropertyResource extends Resource
                                     )
                                     ->searchable()
                                     ->preload()
+                                    ->helperText('Jika kawasan/taman yang dicari tiada, klik ikon tambah (+), masukkan nama kawasan/taman dan jarak dari POLIMAS. Status kawasan baharu akan terus aktif.')
+                                    ->createOptionForm([
+                                        Section::make('Tambah Kawasan / Taman Baharu')
+                                            ->description('Gunakan fungsi ini jika kawasan/taman belum wujud dalam senarai. Contoh: Taman Sri Aman, 0.8 km dari POLIMAS.')
+                                            ->schema([
+                                                TextInput::make('name')
+                                                    ->label('Nama Kawasan / Taman')
+                                                    ->placeholder('Contoh: Taman Sri Aman')
+                                                    ->required()
+                                                    ->maxLength(255),
+
+                                                TextInput::make('distance_from_campus')
+                                                    ->label('Jarak Dari POLIMAS (km)')
+                                                    ->numeric()
+                                                    ->suffix('km')
+                                                    ->placeholder('Contoh: 1.5')
+                                                    ->helperText('Masukkan jarak anggaran dari POLIMAS. Status kawasan akan ditetapkan sebagai aktif.'),
+                                            ])
+                                            ->columns(2),
+                                    ])
+                                    ->createOptionUsing(function (array $data): int {
+                                        $area = Area::withTrashed()->firstOrNew([
+                                            'name' => trim((string) $data['name']),
+                                        ]);
+
+                                        $area->fill([
+                                            'distance_from_campus' => $data['distance_from_campus'] ?? null,
+                                            'status' => RecordStatus::ACTIVE,
+                                        ]);
+
+                                        if ($area->trashed()) {
+                                            $area->restore();
+                                        }
+
+                                        $area->save();
+
+                                        return (int) $area->getKey();
+                                    })
+                                    ->createOptionModalHeading('Tambah Kawasan / Taman Baharu')
+                                    ->createOptionAction(fn (Action $action): Action => $action
+                                        ->label('Add Area')
+                                        ->icon(Heroicon::OutlinedPlusCircle)
+                                        ->modalSubmitActionLabel('Save')
+                                        ->modalCancelActionLabel('Cancel'))
                                     ->required(),
 
                                 Select::make('category_id')
@@ -475,6 +519,18 @@ class PropertyResource extends Resource
                         ->label('Restore Selected'),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = auth()->user();
+
+        if ($user?->hasRole('staff_jabatan')) {
+            $query->where('created_by', $user->getKey());
+        }
+
+        return $query;
     }
 
     /**

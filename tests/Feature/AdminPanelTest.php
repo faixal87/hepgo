@@ -78,6 +78,44 @@ class AdminPanelTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_only_super_admin_can_manage_portal_settings(): void
+    {
+        $portalSetting = PortalSetting::current();
+
+        $superAdmin = User::factory()->create();
+        $superAdmin->assignRole('super_admin');
+
+        $hepAdmin = User::factory()->create();
+        $hepAdmin->assignRole('hep_admin');
+
+        $this
+            ->actingAs($superAdmin)
+            ->get('/admin/portal-settings')
+            ->assertOk()
+            ->assertSee('Tetapan Portal');
+
+        $this
+            ->actingAs($superAdmin)
+            ->get("/admin/portal-settings/{$portalSetting->id}/edit")
+            ->assertOk()
+            ->assertSee('Gambar Hero Portal');
+
+        $this
+            ->actingAs($hepAdmin)
+            ->get('/admin/portal-settings')
+            ->assertForbidden();
+
+        $this
+            ->actingAs($hepAdmin)
+            ->get("/admin/portal-settings/{$portalSetting->id}/edit")
+            ->assertForbidden();
+
+        $this->assertTrue($superAdmin->can('viewAny', PortalSetting::class));
+        $this->assertTrue($superAdmin->can('update', $portalSetting));
+        $this->assertFalse($hepAdmin->can('viewAny', PortalSetting::class));
+        $this->assertFalse($hepAdmin->can('update', $portalSetting));
+    }
+
     public function test_admin_login_page_has_link_back_to_public_portal(): void
     {
         $this
@@ -128,7 +166,7 @@ class AdminPanelTest extends TestCase
         $this->assertFalse($hepAdmin->can('delete', $superAdmin));
     }
 
-    public function test_department_staff_can_submit_records_but_cannot_verify_or_publish(): void
+    public function test_department_staff_can_submit_and_edit_own_records_but_cannot_verify_or_publish(): void
     {
         $user = User::factory()->create();
         $user->assignRole('staff_jabatan');
@@ -156,7 +194,7 @@ class AdminPanelTest extends TestCase
         $this->assertTrue($user->can('update', $property));
         $this->assertFalse($user->can('verify', $property));
         $this->assertFalse($user->can('updateAvailability', $property));
-        $this->assertFalse($user->can('update', $verifiedProperty));
+        $this->assertTrue($user->can('update', $verifiedProperty));
     }
 
     private function createProperty(array $overrides = []): Property

@@ -17,6 +17,24 @@
         @csrf
         @method('patch')
 
+        <div class="rounded-2xl border border-blue-100 bg-blue-50/80 p-4">
+            <p class="text-xs font-extrabold uppercase tracking-wide text-blue-700">Tahap Akses</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+                @forelse ($user->roleDisplayNames() as $roleName)
+                    <span class="rounded-full bg-white px-3 py-1 text-sm font-bold text-blue-900 shadow-sm ring-1 ring-blue-100">
+                        {{ $roleName }}
+                    </span>
+                @empty
+                    <span class="rounded-full bg-white px-3 py-1 text-sm font-bold text-gray-700 shadow-sm ring-1 ring-gray-100">
+                        Tiada peranan
+                    </span>
+                @endforelse
+            </div>
+            <p class="mt-2 text-xs text-blue-800">
+                Akses ini menentukan menu dan tindakan yang dibenarkan dalam sistem.
+            </p>
+        </div>
+
         <div class="rounded-2xl border border-dashed border-orange-200 bg-orange-50/70 p-4">
             <p class="mb-4 text-sm font-extrabold text-orange-900">Letak gambar profil di sini</p>
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center">

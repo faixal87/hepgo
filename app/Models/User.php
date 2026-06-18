@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Enums\UserStatus;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -60,6 +60,29 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     public function uiTheme(): array
     {
         return config("hep.ui_themes.{$this->uiThemeKey()}");
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function roleDisplayNames(): array
+    {
+        return $this->roles
+            ->pluck('name')
+            ->map(fn (string $role): string => config("hep.roles.{$role}", $role))
+            ->values()
+            ->all();
+    }
+
+    public function accessLevelLabel(): string
+    {
+        $roles = $this->roleDisplayNames();
+
+        if ($roles === []) {
+            return 'Tiada peranan';
+        }
+
+        return implode(', ', $roles);
     }
 
     /**

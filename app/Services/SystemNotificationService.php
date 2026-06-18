@@ -72,6 +72,33 @@ class SystemNotificationService
             ->sendToDatabase($recipients, isEventDispatched: true);
     }
 
+    public function notifyListingUpdatedForReview(Property $property): void
+    {
+        $recipients = $this->hepRecipients();
+
+        if ($recipients->isEmpty()) {
+            return;
+        }
+
+        $property->loadMissing(['createdBy', 'area']);
+
+        $submittedBy = $property->createdBy?->name ?? 'pengguna sistem';
+        $location = $property->area?->name ?? 'kawasan tidak dinyatakan';
+
+        Notification::make()
+            ->title('Listing rumah sewa dikemaskini menunggu semakan')
+            ->body("{$property->title} di {$location} telah dikemaskini oleh {$submittedBy} dan perlu disahkan semula oleh HEP.")
+            ->warning()
+            ->actions([
+                Action::make('buka_listing')
+                    ->label('Open Listing')
+                    ->button()
+                    ->markAsRead()
+                    ->url(PropertyResource::getUrl('edit', ['record' => $property], panel: 'admin')),
+            ])
+            ->sendToDatabase($recipients, isEventDispatched: true);
+    }
+
     public function notifyCreatorVerificationUpdate(Property $property, VerificationStatus $status, ?string $remarks = null): void
     {
         $recipient = $this->departmentStaffRecipient($property);
